@@ -20,7 +20,7 @@ if (!function_exists('check_notify_product')) {
      *
      * @since 1.0.0
      */
-    function check_notify_product(int $product_id = 0)
+    function check_notify_product($product_id = 0)
     {
 
         if (empty($product_id) || $product_id <= 0) {

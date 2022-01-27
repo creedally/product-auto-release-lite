@@ -30,14 +30,14 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 *
 		 * @since    1.0.0
 		 */
-		private $errors = array();
+		private static $errors = array();
 
 		/**
 		 * The messages of this plugin.
 		 *
 		 * @since    1.0.0
 		 */
-		private $messages = array();
+		private static $messages = array();
 
 		/**
 		 * Initialize the class and set its properties.
@@ -355,6 +355,17 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						)
 					);
 
+                    woocommerce_wp_checkbox(
+                        array(
+                            'id'            => 'enable_notification',
+                            'class'         => 'wc-enable-notification-checkbox checkbox',
+                            'wrapper_class' => 'wc-enable-notification wc-notify-general-field',
+                            'label'         => __( 'Enable Product Release Settings?', 'woo-product-auto-release' ),
+                            'desc_tip'      => true,
+                            'description'   => __( 'Enable this option to add product release setting.', 'woo-product-auto-release' ),
+                        )
+                    );
+
 					woocommerce_wp_radio(
 						array(
 							'id'            => 'notification_type',
@@ -394,12 +405,38 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							'class'             => 'regular-text',
 						)
 					);
+
+                    woocommerce_wp_checkbox(
+                        array(
+                            'id'            => 'enable_auto_release',
+                            'class'         => 'enable-email-auto-release-checkbox checkbox ',
+                            'wrapper_class' => 'wc-auto-release wc-notify-general-field',
+                            'label'         => __( 'Enable Countdown Timer?', 'woo-product-auto-release' ),
+                            'desc_tip'      => true,
+                            'description'   => __( 'Enable this option to set countdown timer for product release.', 'woo-product-auto-release' ),
+                        )
+                    );
+
+                    woocommerce_wp_text_input(
+                        array(
+                            'type'              => 'text',
+                            'id'                => 'auto_release_date',
+                            'label'             => __( 'Product Auto Release Date&Time', 'woo-product-auto-release' ),
+                            'wrapper_class'     => 'wc-auto-release-fields release-date-picker wc-notify-general-field',
+                            'desc_tip'          => true,
+                            'placeholder'       => date( 'Y-m-d H:s' ),
+                            'class'             => 'regular-text auto-release-date',
+                            'custom_attributes' => array( 'autocomplete' => 'off' ),
+                        )
+                    );
+
                     woocommerce_wp_hidden_input(
                         array(
                             'id'    => 'woocommerce_meta_nonce',
                             'value' => esc_attr( wp_create_nonce( 'woocommerce_save_data' ) ),
                         ),
                     );
+
 					?>
 				</div>
 			</div>
