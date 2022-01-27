@@ -164,7 +164,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 					?>
 					<a href="<?php echo esc_attr( $menu_link ); ?>" class="wpar-nav-tab nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_attr( $menu ); ?></a>
 				<?php } ?>
-                    <a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><?php _e("Upgrade to Pro", "woo-product-auto-release-lite")?></a>
+                <a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><img src="<?php echo WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL.'/assets/images/icon-upgrade-pro.svg'; ?>"><p><?php _e("Upgrade to Pro", "woo-product-auto-release-lite")?></p></a>
 			</nav>
 			<?php
 		}
