@@ -23,21 +23,21 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 *
 		 * @since    1.0.0
 		 */
-		public string $menu_slug = WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG;
+		public $menu_slug = WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG;
 
 		/**
 		 * The errors of this plugin.
 		 *
 		 * @since    1.0.0
 		 */
-		private static array $errors = array();
+		private $errors = array();
 
 		/**
 		 * The messages of this plugin.
 		 *
 		 * @since    1.0.0
 		 */
-		private static array $messages = array();
+		private $messages = array();
 
 		/**
 		 * Initialize the class and set its properties.

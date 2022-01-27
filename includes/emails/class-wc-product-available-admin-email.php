@@ -22,7 +22,7 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 		 * @var int
 		 * @since 1.0.0
 		 */
-		public int $product_id;
+		public $product_id;
 
 		/**
 		 * Product url.
@@ -30,7 +30,7 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public string $product_url;
+		public $product_url;
 
 		/**
 		 * Product title.
@@ -38,7 +38,7 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 		 * @var string
 		 * @since 1.0.0
 		 */
-		public string $product_title;
+		public $product_title;
 
 		/**
 		 * constructor.
