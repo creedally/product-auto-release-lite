@@ -1,0 +1,4 @@
+.notify-product .options_group fieldset.form-field ul.wc-radios input[type="radio"] {margin-right: 5px !important;}
+.notify-product fieldset.form-field ul.wc-radios li {padding: 0 !important;}
+.notify-product .options_group p.form-field label, .notify-product .options_group fieldset.form-field legend {width: 250px;}
+.product-url {display: inline-flex;background: #dee3ff;border: 1px solid #c6d3f8;box-sizing: border-box;border-radius: 0.25rem;padding: 5px 10px;margin-left: 10px;text-decoration: none;text-transform: uppercase;color: #425fdd;font-weight: 600;}
