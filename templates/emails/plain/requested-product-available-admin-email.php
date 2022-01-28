@@ -11,8 +11,8 @@ echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n";
 echo esc_html( wp_strip_all_tags( $email_heading ) );
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
-esc_attr_e( 'Hello,', 'woo-product-auto-release-lite' ) . "\n\n";
+esc_attr_e( 'Hello,', 'woocommerce-product-auto-release-lite' ) . "\n\n";
 /* translators: %1$s: Site title, %2$s: product url */
-echo sprintf( esc_attr__( '%1$s product is live now. you can review the product here, %2$s.', 'woo-product-auto-release-lite' ), esc_attr( $product_title ), $product_url ) . "\n\n";
+echo sprintf( esc_attr__( '%1$s product is live now. you can review the product here, %2$s.', 'woocommerce-product-auto-release-lite' ), esc_attr( $product_title ), $product_url ) . "\n\n";
 
 echo "\n\n----------------------------------------\n\n";

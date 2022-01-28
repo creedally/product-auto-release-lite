@@ -64,12 +64,12 @@ if (!function_exists('get_wpar_message')) {
         }
 
         $messages = array(
-            'something_went_wrong' => __('Something went wrong, please try after some time.', 'woo-product-auto-release-lite'),
-            'setting_saved' => __('Your settings has been saved.', 'woo-product-auto-release-lite'),
-            'nonce_not_verified' => __('Nonce not verified.', 'woo-product-auto-release-lite'),
-            'product_is_available' => __('Product is available now.', 'woo-product-auto-release-lite'),
-            'notification_vote_submitted' => __('Thank you for voting for this product release, we will release it soon.', 'woo-product-auto-release-lite'),
-            'notification_vote_exists' => __('You have already voted for this product.', 'woo-product-auto-release-lite'),
+            'something_went_wrong' => __('Something went wrong, please try after some time.', 'woocommerce-product-auto-release-lite'),
+            'setting_saved' => __('Your settings has been saved.', 'woocommerce-product-auto-release-lite'),
+            'nonce_not_verified' => __('Nonce not verified.', 'woocommerce-product-auto-release-lite'),
+            'product_is_available' => __('Product is available now.', 'woocommerce-product-auto-release-lite'),
+            'notification_vote_submitted' => __('Thank you for voting for this product release, we will release it soon.', 'woocommerce-product-auto-release-lite'),
+            'notification_vote_exists' => __('You have already voted for this product.', 'woocommerce-product-auto-release-lite'),
         );
 
         $global_messages = apply_filters('wp_auto_release_global_messages', $messages);

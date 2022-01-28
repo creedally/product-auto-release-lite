@@ -9,7 +9,7 @@
 * License:       GPL-2.0+
 * License URI:   http://www.gnu.org/licenses/gpl-2.0.txt
 * ProductID:     233
-* Text Domain:   woo-product-auto-release-lite
+* Text Domain:   woocommerce-product-auto-release-lite
 * Domain Path:  /languages
 */
 
@@ -80,7 +80,7 @@ if ( is_admin() ) {
 			'admin_notices',
 			function() {
 				/* translators: %1$s: Product Title, %2$s: product link tag start, %3$s: product link tag end */
-				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'woo-product-auto-release-lite' ), ' WC Product Inquiry Lite', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
+				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'woocommerce-product-auto-release-lite' ), ' WC Product Inquiry Lite', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
 			}
 		);
 	}
@@ -103,7 +103,7 @@ function activate_wc_product_auto_release_lite() {
  *
  * @since 1.0.0
  */
-require_once 'includes/class-woo-product-auto-release-lite.php';
+require_once 'includes/class-woocommerce-product-auto-release-lite.php';
 
 /**
  * Begins execution of the plugin.

@@ -46,11 +46,11 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 		public function __construct() {
 			$this->id             = 'requested_product_available_admin_email';
 			$this->customer_email = false;
-			$this->title          = __( 'Product Live Now - Admin', 'woo-product-auto-release-lite' );
-			$this->description    = __( 'This email sent to admin when product is live.', 'woo-product-auto-release-lite' );
+			$this->title          = __( 'Product Live Now - Admin', 'woocommerce-product-auto-release-lite' );
+			$this->description    = __( 'This email sent to admin when product is live.', 'woocommerce-product-auto-release-lite' );
 
-			$this->heading = __( '{product_name} is live now!', 'woo-product-auto-release-lite' );
-			$this->subject = __( '[{site_title}]: {product_name} is live now!', 'woo-product-auto-release-lite' );
+			$this->heading = __( '{product_name} is live now!', 'woocommerce-product-auto-release-lite' );
+			$this->subject = __( '[{site_title}]: {product_name} is live now!', 'woocommerce-product-auto-release-lite' );
 
 			$this->template_base  = WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'templates/';
 			$this->template_html  = 'emails/requested-product-available-admin-email.php';
@@ -140,49 +140,49 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 
 			$this->form_fields = array(
 				'enabled'            => array(
-					'title'   => __( 'Enable/Disable', 'woo-product-auto-release-lite' ),
+					'title'   => __( 'Enable/Disable', 'woocommerce-product-auto-release-lite' ),
 					'type'    => 'checkbox',
-					'label'   => __( 'Enable this email notification', 'woo-product-auto-release-lite' ),
+					'label'   => __( 'Enable this email notification', 'woocommerce-product-auto-release-lite' ),
 					'default' => 'yes',
 				),
 				'recipient'          => array(
-					'title'       => __( 'Recipient', 'woo-product-auto-release-lite' ),
+					'title'       => __( 'Recipient', 'woocommerce-product-auto-release-lite' ),
 					'type'        => 'text',
-					'description' => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to %s.', 'woo-product-auto-release-lite' ), '<code>' . esc_attr( get_option( 'admin_email' ) ) . '</code>' ),
+					'description' => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to %s.', 'woocommerce-product-auto-release-lite' ), '<code>' . esc_attr( get_option( 'admin_email' ) ) . '</code>' ),
 					'placeholder' => '',
 					'default'     => '',
 					'desc_tip'    => true,
 				),
 				'subject'            => array(
-					'title'       => __( 'Subject', 'woo-product-auto-release-lite' ),
+					'title'       => __( 'Subject', 'woocommerce-product-auto-release-lite' ),
 					'type'        => 'text',
-					'placeholder' => __( '[{site_title}]: {product_name} is live now!', 'woo-product-auto-release-lite' ),
+					'placeholder' => __( '[{site_title}]: {product_name} is live now!', 'woocommerce-product-auto-release-lite' ),
 					'default'     => '',
 				),
 				'heading'            => array(
-					'title'       => __( 'Email Heading', 'woo-product-auto-release-lite' ),
+					'title'       => __( 'Email Heading', 'woocommerce-product-auto-release-lite' ),
 					'type'        => 'text',
-					'placeholder' => __( '{product_name} is live now!', 'woo-product-auto-release-lite' ),
+					'placeholder' => __( '{product_name} is live now!', 'woocommerce-product-auto-release-lite' ),
 					'default'     => '',
 				),
 				'additional_content' => array(
-					'title'       => __( 'Additional content', 'woo-product-auto-release-lite' ),
-					'description' => __( 'Text to appear below the main email content.', 'woo-product-auto-release-lite' ),
+					'title'       => __( 'Additional content', 'woocommerce-product-auto-release-lite' ),
+					'description' => __( 'Text to appear below the main email content.', 'woocommerce-product-auto-release-lite' ),
 					'css'         => 'width:400px; height: 75px;',
-					'placeholder' => __( 'N/A', 'woo-product-auto-release-lite' ),
+					'placeholder' => __( 'N/A', 'woocommerce-product-auto-release-lite' ),
 					'type'        => 'textarea',
 					'default'     => $this->get_default_additional_content(),
 					'desc_tip'    => true,
 				),
 				'email_type'         => array(
-					'title'   => __( 'Email type', 'woo-product-auto-release-lite' ),
+					'title'   => __( 'Email type', 'woocommerce-product-auto-release-lite' ),
 					'type'    => 'select',
 					'default' => 'html',
 					'class'   => 'email_type',
 					'options' => array(
-						'plain'     => __( 'Plain text', 'woo-product-auto-release-lite' ),
-						'html'      => __( 'HTML', 'woo-product-auto-release-lite' ),
-						'multipart' => __( 'Multipart', 'woo-product-auto-release-lite' ),
+						'plain'     => __( 'Plain text', 'woocommerce-product-auto-release-lite' ),
+						'html'      => __( 'HTML', 'woocommerce-product-auto-release-lite' ),
+						'multipart' => __( 'Multipart', 'woocommerce-product-auto-release-lite' ),
 					),
 				),
 			);

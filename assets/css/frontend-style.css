@@ -1,1 +1,4 @@
-
+.wpar-timer {width: 100%;background: #FFF;box-shadow: 0 0 10px #CCC;margin: 10px 0;border-radius: 5px;text-align: center;}
+.wpar-timer div {display: inline-block;padding: 10px;font-size: 16px;font-weight: bold;}
+.wpar-timer div span {font-size: 14px !important;font-weight: normal;margin-left: 5px;}
+span.total-voting-numbers {display: block;}
