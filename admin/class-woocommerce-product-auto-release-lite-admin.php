@@ -226,8 +226,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						<?php
 						$this->heading_title();
 						$this->notification();
-						?>
-						<form method="post" id="wpar_form_main" action="" enctype="multipart/form-data">
+						$ignore_list = array( 'subscribers_list', 'voted_lists' );
+
+						if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) {?>
+							<form method="post" id="wpar_form_main" action="" enctype="multipart/form-data">
+						<?php } ?>
 							<div class="wpar-content-wrap">
 								<?php
 								do_action( 'wpar_lite_section_before_content', $current_section );
@@ -251,7 +254,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 								<input type="hidden" name="current_page" value="<?php echo esc_attr( $current_page ); ?>">
 								<input type="hidden" name="current_section" value="<?php echo esc_attr( $current_section ); ?>">
 							</p>
+						<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
 						</form>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
