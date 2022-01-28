@@ -12,9 +12,9 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 
 <?php /* translators: %s: Customer username */ ?>
-	<p><?php echo sprintf( esc_attr__( 'Hello %s,', 'woo-product-auto-release-lite' ), esc_html( $admin_email ) ); ?></p>
+	<p><?php echo sprintf( esc_attr__( 'Hello %s,', 'woocommerce-product-auto-release-lite' ), esc_html( $admin_email ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username */ ?>
-	<p><?php echo sprintf( esc_attr__( '%1$s product is live now. you can review the product here, %2$s.', 'woo-product-auto-release-lite' ), '<strong>' . esc_attr( $product_title ) . '</strong>', $product_url ); ?></p>
+	<p><?php echo sprintf( esc_attr__( '%1$s product is live now. you can review the product here, %2$s.', 'woocommerce-product-auto-release-lite' ), '<strong>' . esc_attr( $product_title ) . '</strong>', $product_url ); ?></p>
 <?php
 
 /**

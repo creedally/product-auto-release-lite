@@ -58,14 +58,14 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
          */
         public function includes() {
 
-            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/woo-product-auto-release-lite-functions.php';
+            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/woocommerce-product-auto-release-lite-functions.php';
 
             if ( ! is_admin() ) {
                 return;
             }
 
-            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-woo-product-auto-release-lite-admin.php';
-            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-woo-product-auto-release-lite-settings-fields.php';
+            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-woocommerce-product-auto-release-lite-admin.php';
+            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-woocommerce-product-auto-release-lite-settings-fields.php';
         }
 
         /**
@@ -81,8 +81,10 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
             add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'woocommerce_blocks_product_grid_item_html_cb' ), 9999, 3 );
             add_filter( 'upvote_button_label_html', array($this, 'upvote_button_label_html_cb'));
             add_filter( 'woocommerce_email_classes', array( $this, 'woocommerce_email_classes_cb' ) );
-            add_filter( 'wp_ajax_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
-            add_filter( 'wp_ajax_nopriv_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
+            add_action( 'wp_ajax_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
+            add_action( 'wp_ajax_nopriv_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
+            add_action( 'wp_ajax_notify_product_release', array( $this, 'notify_product_release_cb' ) );
+            add_action( 'wp_ajax_notify_product_release', array( $this, 'notify_product_release_cb' ) );
 
             add_filter( 'woocommerce_email_format_string', array( $this, 'wc_email_format_string' ), 10, 2 );
         }
@@ -94,16 +96,25 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
          */
         public function enqueue_scripts() {
 
-            wp_enqueue_style( 'woo-product-auto-release-lite-frontend', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/frontend-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-            wp_enqueue_style( 'font-awesome-style', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-            wp_enqueue_script( 'woo-product-auto-release-lite', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/woo-product-auto-release-lite.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
-            wp_localize_script( 'woo-product-auto-release-lite', 'woo_product_auto_release_object', array(
+            $woocommerce_product_auto_release_object = array(
                 'ajax_url'          => admin_url( 'admin-ajax.php' ),
-            ) );
+                'enter_valid_email' => get_wpar_message( 'enter_valid_email' ),
+                'days'              => __( 'days', 'woocommerce-product-auto-release-lite' ),
+                'hours'             => __( 'hours', 'woocommerce-product-auto-release-lite' ),
+                'minutes'           => __( 'minutes', 'woocommerce-product-auto-release-lite' ),
+                'seconds'           => __( 'seconds', 'woocommerce-product-auto-release-lite' ),
+                'is_product_type'   => '',
+                'auto_release_date' => '',
+            );
+
+            wp_enqueue_style( 'woocommerce-product-auto-release-lite-frontend', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/frontend-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+            wp_enqueue_style( 'font-awesome-style', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+            wp_enqueue_script( 'woocommerce-product-auto-release-lite', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/woocommerce-product-auto-release-lite.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+            wp_localize_script( 'woocommerce-product-auto-release-lite', 'woocommerce_product_auto_release_object', $woocommerce_product_auto_release_object );
         }
 
         /**
-         * Add notify product if selected notify option.
+         * Add notify product if  notify option.
          *
          * @since 1.0.0
          */
@@ -187,7 +198,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
             {$data->badge}
             {$data->price}
             {$data->rating}
-            <a href=\"{$data->permalink}\" rel=\"nofollow\" class=\"button product_type_simple\">" . __( 'View product', 'woo-product-auto-release-lite' ) . '</a>
+            <a href=\"{$data->permalink}\" rel=\"nofollow\" class=\"button product_type_simple\">" . __( 'View product', 'woocommerce-product-auto-release-lite' ) . '</a>
          </li>';
         }
 
@@ -252,6 +263,42 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
                         $this->reset_settings( $product_id );
                         $reload = true;
                     }
+                }
+            }
+
+            $response = array(
+                'status'  => $status,
+                'message' => $message,
+                'type'    => $type,
+                'reload'  => $reload,
+            );
+
+            wp_send_json( $response );
+        }
+
+        /**
+         * Release product by timer.
+         *
+         * @since 1.0.0
+         */
+        public function notify_product_release_cb() {
+
+            $status  = false;
+            $reload  = false;
+            $type    = 'error';
+            $message = get_wpar_message( 'something_went_wrong' );
+
+            if ( ! empty( $_POST['_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'woo_auto_release' ) ) {
+                $status       = true;
+                $type         = 'success';
+                $product_id   = ! empty( $_POST['product_id'] ) ? sanitize_text_field( $_POST['product_id'] ) : 0;
+
+                if ( ! empty( $product_id ) && 0 <= $product_id ) {
+
+                    $message = get_wpar_message( 'product_is_available' );
+                    $reload  = true;
+
+                    $this->reset_settings( $product_id );
                 }
             }
 
@@ -339,13 +386,22 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
                             if ( ! empty( $enable_show_total_votes ) && 'yes' === esc_attr( $enable_show_total_votes ) ) {
                                 $notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
                                 ?>
-<                                <span class="total-voting-numbers"><?php echo ! empty( $notify_product_lead_count ) ? esc_attr( $notify_product_lead_count ) : ''; ?> </span>
+                                <span class="total-voting-numbers"><?php echo sprintf( _n( '<strong>%s</strong> Vote', '<strong>%s</strong> Votes', $notify_product_lead_count, 'text-domain' ), number_format_i18n( $notify_product_lead_count ) ); ?> </span>
                             <?php } ?>
                         </div>
                     </div>
+                <?php
+                    $enable_auto_release = get_post_meta( $product_id, 'enable_auto_release', true );
+                    $auto_release_date   = get_post_meta( $product_id, 'auto_release_date', true );
+                    if ( ! empty( $enable_auto_release ) && ! empty( $auto_release_date ) && strtotime( $auto_release_date ) > strtotime( 'now' ) ) { ?>
+                        <div class="timer-main-wrapper" id="timer_main_wrapper">
+                            <div id="wpar_timer" class="wpar-timer" data-available-time="<?php echo esc_attr( $auto_release_date ); ?>"></div>
+                        </div>
+                    <?php } ?>
                 </div>
             <?php
             }
+
             return  ob_get_clean();
         }
 
@@ -365,7 +421,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
             if ( empty( $product_id ) || $product_id < 1 ) {
                 return;
             } ?>
-            <a href='<?php echo esc_url( get_permalink( $product_id ) ); ?>' rel='nofollow' class='button product_type_simple'> <?php esc_attr_e( 'View product', 'woo-product-auto-release-lite' ); ?> </a>
+            <a href='<?php echo esc_url( get_permalink( $product_id ) ); ?>' rel='nofollow' class='button product_type_simple'> <?php esc_attr_e( 'View product', 'woocommerce-product-auto-release-lite' ); ?> </a>
             <?php
         }
 
