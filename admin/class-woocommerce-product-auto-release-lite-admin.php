@@ -247,13 +247,15 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 								do_action( 'wpar_lite_section_after_content', $current_section );
 								?>
 							</div>
-							<p class="submit <?php echo ! empty( $section ) ? esc_attr( $section ) : ''; ?> ">
-								<button name="save" class="button-primary" type="submit" value="submit"><?php esc_attr_e( 'Save changes', 'woocommerce-product-auto-release-lite' ); ?></button>
-								<input type="hidden" name="action" value="wpar_form_action">
-								<input type="hidden" name="_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpar_form_main' ) ); ?>">
-								<input type="hidden" name="current_page" value="<?php echo esc_attr( $current_page ); ?>">
-								<input type="hidden" name="current_section" value="<?php echo esc_attr( $current_section ); ?>">
-							</p>
+							<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
+								<p class="submit <?php echo ! empty( $section ) ? esc_attr( $section ) : ''; ?> ">
+									<button name="save" class="button-primary" type="submit" value="submit"><?php esc_attr_e( 'Save changes', 'woocommerce-product-auto-release-lite' ); ?></button>
+									<input type="hidden" name="action" value="wpar_form_action">
+									<input type="hidden" name="_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpar_form_main' ) ); ?>">
+									<input type="hidden" name="current_page" value="<?php echo esc_attr( $current_page ); ?>">
+									<input type="hidden" name="current_section" value="<?php echo esc_attr( $current_section ); ?>">
+								</p>
+							<?php } ?>
 						<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
 						</form>
 						<?php } ?>
