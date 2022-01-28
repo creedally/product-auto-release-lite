@@ -30,6 +30,6 @@ if ( ! class_exists( 'WC_PRODUCT_AUTO_RELEASE_LITE_Activator' ) ) {
 		 */
 		public static function activate() {
 
-        }
-    }
+		}
+	}
 }

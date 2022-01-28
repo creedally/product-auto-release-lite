@@ -1,8 +1,8 @@
 <?php
 // Exit if accessed directly
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -10,34 +10,33 @@ if (!defined('ABSPATH')) {
  *
  * @since 1.0.0
  */
-if (!function_exists('check_notify_product')) {
+if ( ! function_exists( 'check_notify_product' ) ) {
 
-    /**
-     * Check the product is notify product or not
-     *
-     * @param int $product_id
-     * @return false|mixed|void
-     *
-     * @since 1.0.0
-     */
-    function check_notify_product($product_id = 0)
-    {
+	/**
+	 * Check the product is notify product or not
+	 *
+	 * @param int $product_id
+	 * @return false|mixed|void
+	 *
+	 * @since 1.0.0
+	 */
+	function check_notify_product( $product_id = 0 ) {
 
-        if (empty($product_id) || $product_id <= 0) {
-            return false;
-        }
+		if ( empty( $product_id ) || $product_id <= 0 ) {
+			return false;
+		}
 
-        $notify_product = get_post_meta($product_id, 'notify_product', true);
-        $notify_product_lead = get_post_meta($product_id, 'notify_product_lead', true);
-        $notify_product_lead_generated = get_post_meta($product_id, 'notify_product_lead_generated', true);
+		$notify_product                = get_post_meta( $product_id, 'notify_product', true );
+		$notify_product_lead           = get_post_meta( $product_id, 'notify_product_lead', true );
+		$notify_product_lead_generated = get_post_meta( $product_id, 'notify_product_lead_generated', true );
 
-        $is_notify = false;
-        if (!empty($notify_product) && !empty($notify_product_lead) && (empty($notify_product_lead_generated) || $notify_product_lead_generated < $notify_product_lead)) {
-            $is_notify = true;
-        }
+		$is_notify = false;
+		if ( ! empty( $notify_product ) && ! empty( $notify_product_lead ) && ( empty( $notify_product_lead_generated ) || $notify_product_lead_generated < $notify_product_lead ) ) {
+			$is_notify = true;
+		}
 
-        return apply_filters('wp_auto_release_notify_product', $is_notify, $product_id);
-    }
+		return apply_filters( 'wp_auto_release_notify_product', $is_notify, $product_id );
+	}
 }
 
 /**
@@ -45,37 +44,36 @@ if (!function_exists('check_notify_product')) {
  *
  * @since 1.0.0
  */
-if (!function_exists('get_wpar_message')) {
+if ( ! function_exists( 'get_wpar_message' ) ) {
 
-    /**
-     * Get all messages
-     *
-     * @param string $key
-     *
-     * @return string
-     * @since 1.0.0
-     *
-     */
-    function get_wpar_message(string $key = '')
-    {
+	/**
+	 * Get all messages
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 *
+	 */
+	function get_wpar_message( string $key = '' ) {
 
-        if (empty($key)) {
-            return '';
-        }
+		if ( empty( $key ) ) {
+			return '';
+		}
 
-        $messages = array(
-            'something_went_wrong' => __('Something went wrong, please try after some time.', 'woocommerce-product-auto-release-lite'),
-            'setting_saved' => __('Your settings has been saved.', 'woocommerce-product-auto-release-lite'),
-            'nonce_not_verified' => __('Nonce not verified.', 'woocommerce-product-auto-release-lite'),
-            'product_is_available' => __('Product is available now.', 'woocommerce-product-auto-release-lite'),
-            'notification_vote_submitted' => __('Thank you for voting for this product release, we will release it soon.', 'woocommerce-product-auto-release-lite'),
-            'notification_vote_exists' => __('You have already voted for this product.', 'woocommerce-product-auto-release-lite'),
-        );
+		$messages = array(
+			'something_went_wrong'        => __( 'Something went wrong, please try after some time.', 'woocommerce-product-auto-release-lite' ),
+			'setting_saved'               => __( 'Your settings has been saved.', 'woocommerce-product-auto-release-lite' ),
+			'nonce_not_verified'          => __( 'Nonce not verified.', 'woocommerce-product-auto-release-lite' ),
+			'product_is_available'        => __( 'Product is available now.', 'woocommerce-product-auto-release-lite' ),
+			'notification_vote_submitted' => __( 'Thank you for voting for this product release, we will release it soon.', 'woocommerce-product-auto-release-lite' ),
+			'notification_vote_exists'    => __( 'You have already voted for this product.', 'woocommerce-product-auto-release-lite' ),
+		);
 
-        $global_messages = apply_filters('wp_auto_release_global_messages', $messages);
+		$global_messages = apply_filters( 'wp_auto_release_global_messages', $messages );
 
-        return !empty($global_messages[$key]) ? $global_messages[$key] : '';
-    }
+		return ! empty( $global_messages[ $key ] ) ? $global_messages[ $key ] : '';
+	}
 }
 
 /**
@@ -83,31 +81,30 @@ if (!function_exists('get_wpar_message')) {
  *
  * @since 1.0.0
  */
-if (!function_exists('wpar_lite_notify_users')) {
+if ( ! function_exists( 'wpar_lite_notify_users' ) ) {
 
-    /**
-     * Notify admin adn users that product available for which they requested.
-     *
-     * @param $product_id
-     *
-     * @since 1.0.0
-     */
-    function wpar_lite_notify_users($product_id)
-    {
+	/**
+	 * Notify admin adn users that product available for which they requested.
+	 *
+	 * @param $product_id
+	 *
+	 * @since 1.0.0
+	 */
+	function wpar_lite_notify_users( $product_id ) {
 
-        $mailer = WC()->mailer();
-        $mails = $mailer->get_emails();
+		$mailer = WC()->mailer();
+		$mails  = $mailer->get_emails();
 
-        if (!empty($mails)) {
+		if ( ! empty( $mails ) ) {
 
-            foreach ($mails as $mail) {
-                if ('requested_product_available_admin_email' === $mail->id) {
-                    $mail->trigger($product_id);
-                }
-            }
-        }
+			foreach ( $mails as $mail ) {
+				if ( 'requested_product_available_admin_email' === $mail->id ) {
+					$mail->trigger( $product_id );
+				}
+			}
+		}
 
-    }
+	}
 }
 
 /**
@@ -115,913 +112,48 @@ if (!function_exists('wpar_lite_notify_users')) {
  *
  * @since 1.0.0
  */
-if (!function_exists('wpar_get_settings')) {
+if ( ! function_exists( 'wpar_get_settings' ) ) {
 
-    /**
-     * Get plugin section settings.
-     *
-     * @param string $section
-     * @param bool $all
-     *
-     * @return false|mixed|string|void
-     * @since 1.0.0
-     *
-     */
-    function wpar_get_settings(string $section = '', bool $all = false)
-    {
+	/**
+	 * Get plugin section settings.
+	 *
+	 * @param string $section
+	 * @param bool $all
+	 *
+	 * @return false|mixed|string|void
+	 * @since 1.0.0
+	 *
+	 */
+	function wpar_get_settings( string $section = '', bool $all = false ) {
 
-        $settings = get_option('wpar_settings', true);
+		$settings = get_option( 'wpar_settings', true );
 
-        if ($all) {
-            return $settings;
-        }
+		if ( $all ) {
+			return $settings;
+		}
 
-        return !empty($settings[$section]) ? $settings[$section] : '';
-    }
+		return ! empty( $settings[ $section ] ) ? $settings[ $section ] : '';
+	}
 }
 
-if (!function_exists('get_fontawesome_icons')) {
-    function get_fontawesome_icons( $key = "" )
-    {
+if ( ! function_exists( 'wpar_sanitize_fields' ) ) {
 
-        $icons = array("fa-500px" => "fab fa-500px",
-            "fa-accessible-icon" => "fab fa-accessible-icon",
-            "fa-accusoft" => "fab fa-accusoft",
-            "fa-address-book" => "far fa-address-book",
-            "fa-address-card" => "far fa-address-card",
-            "fa-adjust" => "fas fa-adjust",
-            "fa-adn" => "fab fa-adn",
-            "fa-adversal" => "fab fa-adversal",
-            "fa-affiliatetheme" => "fab fa-affiliatetheme",
-            "fa-algolia" => "fab fa-algolia",
-            "fa-align-center" => "fas fa-align-center",
-            "fa-align-justify" => "fas fa-align-justify",
-            "fa-align-left" => "fas fa-align-left",
-            "fa-align-right" => "fas fa-align-right",
-            "fa-allergies" => "fas fa-allergies",
-            "fa-amazon" => "fab fa-amazon",
-            "fa-amazon-pay" => "fab fa-amazon-pay",
-            "fa-ambulance" => "fas fa-ambulance",
-            "fa-american-sign-language-interpreting" => "fas fa-american-sign-language-interpreting",
-            "fa-amilia" => "fab fa-amilia",
-            "fa-anchor" => "fas fa-anchor",
-            "fa-android" => "fab fa-android",
-            "fa-angellist" => "fab fa-angellist",
-            "fa-angle-double-down" => "fas fa-angle-double-down",
-            "fa-angle-double-left" => "fas fa-angle-double-left",
-            "fa-angle-double-right" => "fas fa-angle-double-right",
-            "fa-angle-double-up" => "fas fa-angle-double-up",
-            "fa-angle-down" => "fas fa-angle-down",
-            "fa-angle-left" => "fas fa-angle-left",
-            "fa-angle-right" => "fas fa-angle-right",
-            "fa-angle-up" => "fas fa-angle-up",
-            "fa-angrycreative" => "fab fa-angrycreative",
-            "fa-angular" => "fab fa-angular",
-            "fa-app-store" => "fab fa-app-store",
-            "fa-app-store-ios" => "fab fa-app-store-ios",
-            "fa-apper" => "fab fa-apper",
-            "fa-apple" => "fab fa-apple",
-            "fa-apple-pay" => "fab fa-apple-pay",
-            "fa-archive" => "fas fa-archive",
-            "fa-arrow-alt-circle-down" => "far fa-arrow-alt-circle-down",
-            "fa-arrow-alt-circle-left" => "far fa-arrow-alt-circle-left",
-            "fa-arrow-alt-circle-right" => "far fa-arrow-alt-circle-right",
-            "fa-arrow-alt-circle-up" => "far fa-arrow-alt-circle-up",
-            "fa-arrow-circle-down" => "fas fa-arrow-circle-down",
-            "fa-arrow-circle-left" => "fas fa-arrow-circle-left",
-            "fa-arrow-circle-right" => "fas fa-arrow-circle-right",
-            "fa-arrow-circle-up" => "fas fa-arrow-circle-up",
-            "fa-arrow-down" => "fas fa-arrow-down",
-            "fa-arrow-left" => "fas fa-arrow-left",
-            "fa-arrow-right" => "fas fa-arrow-right",
-            "fa-arrow-up" => "fas fa-arrow-up",
-            "fa-arrows-alt" => "fas fa-arrows-alt",
-            "fa-arrows-alt-h" => "fas fa-arrows-alt-h",
-            "fa-arrows-alt-v" => "fas fa-arrows-alt-v",
-            "fa-assistive-listening-systems" => "fas fa-assistive-listening-systems",
-            "fa-asterisk" => "fas fa-asterisk",
-            "fa-asymmetrik" => "fab fa-asymmetrik",
-            "fa-at" => "fas fa-at",
-            "fa-audible" => "fab fa-audible",
-            "fa-audio-description" => "fas fa-audio-description",
-            "fa-autoprefixer" => "fab fa-autoprefixer",
-            "fa-avianex" => "fab fa-avianex",
-            "fa-aviato" => "fab fa-aviato",
-            "fa-aws" => "fab fa-aws",
-            "fa-backward" => "fas fa-backward",
-            "fa-balance-scale" => "fas fa-balance-scale",
-            "fa-ban" => "fas fa-ban",
-            "fa-band-aid" => "fas fa-band-aid",
-            "fa-bandcamp" => "fab fa-bandcamp",
-            "fa-barcode" => "fas fa-barcode",
-            "fa-bars" => "fas fa-bars",
-            "fa-baseball-ball" => "fas fa-baseball-ball",
-            "fa-basketball-ball" => "fas fa-basketball-ball",
-            "fa-bath" => "fas fa-bath",
-            "fa-battery-empty" => "fas fa-battery-empty",
-            "fa-battery-full" => "fas fa-battery-full",
-            "fa-battery-half" => "fas fa-battery-half",
-            "fa-battery-quarter" => "fas fa-battery-quarter",
-            "fa-battery-three-quarters" => "fas fa-battery-three-quarters",
-            "fa-bed" => "fas fa-bed",
-            "fa-beer" => "fas fa-beer",
-            "fa-behance" => "fab fa-behance",
-            "fa-behance-square" => "fab fa-behance-square",
-            "fa-bell" => "far fa-bell",
-            "fa-bell-slash" => "far fa-bell-slash",
-            "fa-bicycle" => "fas fa-bicycle",
-            "fa-bimobject" => "fab fa-bimobject",
-            "fa-binoculars" => "fas fa-binoculars",
-            "fa-birthday-cake" => "fas fa-birthday-cake",
-            "fa-bitbucket" => "fab fa-bitbucket",
-            "fa-bitcoin" => "fab fa-bitcoin",
-            "fa-bity" => "fab fa-bity",
-            "fa-black-tie" => "fab fa-black-tie",
-            "fa-blackberry" => "fab fa-blackberry",
-            "fa-blind" => "fas fa-blind",
-            "fa-blogger" => "fab fa-blogger",
-            "fa-blogger-b" => "fab fa-blogger-b",
-            "fa-bluetooth" => "fab fa-bluetooth",
-            "fa-bluetooth-b" => "fab fa-bluetooth-b",
-            "fa-bold" => "fas fa-bold",
-            "fa-bolt" => "fas fa-bolt",
-            "fa-bomb" => "fas fa-bomb",
-            "fa-book" => "fas fa-book",
-            "fa-bookmark" => "far fa-bookmark",
-            "fa-bowling-ball" => "fas fa-bowling-ball",
-            "fa-box" => "fas fa-box",
-            "fa-box-open" => "fas fa-box-open",
-            "fa-boxes" => "fas fa-boxes",
-            "fa-braille" => "fas fa-braille",
-            "fa-briefcase" => "fas fa-briefcase",
-            "fa-briefcase-medical" => "fas fa-briefcase-medical",
-            "fa-btc" => "fab fa-btc",
-            "fa-bug" => "fas fa-bug",
-            "fa-building" => "far fa-building",
-            "fa-bullhorn" => "fas fa-bullhorn",
-            "fa-bullseye" => "fas fa-bullseye",
-            "fa-burn" => "fas fa-burn",
-            "fa-buromobelexperte" => "fab fa-buromobelexperte",
-            "fa-bus" => "fas fa-bus",
-            "fa-buysellads" => "fab fa-buysellads",
-            "fa-calculator" => "fas fa-calculator",
-            "fa-calendar" => "far fa-calendar",
-            "fa-calendar-alt" => "far fa-calendar-alt",
-            "fa-calendar-check" => "far fa-calendar-check",
-            "fa-calendar-minus" => "far fa-calendar-minus",
-            "fa-calendar-plus" => "far fa-calendar-plus",
-            "fa-calendar-times" => "far fa-calendar-times",
-            "fa-camera" => "fas fa-camera",
-            "fa-camera-retro" => "fas fa-camera-retro",
-            "fa-capsules" => "fas fa-capsules",
-            "fa-car" => "fas fa-car",
-            "fa-caret-down" => "fas fa-caret-down",
-            "fa-caret-left" => "fas fa-caret-left",
-            "fa-caret-right" => "fas fa-caret-right",
-            "fa-caret-square-down" => "far fa-caret-square-down",
-            "fa-caret-square-left" => "far fa-caret-square-left",
-            "fa-caret-square-right" => "far fa-caret-square-right",
-            "fa-caret-square-up" => "far fa-caret-square-up",
-            "fa-caret-up" => "fas fa-caret-up",
-            "fa-cart-arrow-down" => "fas fa-cart-arrow-down",
-            "fa-cart-plus" => "fas fa-cart-plus",
-            "fa-cc-amazon-pay" => "fab fa-cc-amazon-pay",
-            "fa-cc-amex" => "fab fa-cc-amex",
-            "fa-cc-apple-pay" => "fab fa-cc-apple-pay",
-            "fa-cc-diners-club" => "fab fa-cc-diners-club",
-            "fa-cc-discover" => "fab fa-cc-discover",
-            "fa-cc-jcb" => "fab fa-cc-jcb",
-            "fa-cc-mastercard" => "fab fa-cc-mastercard",
-            "fa-cc-paypal" => "fab fa-cc-paypal",
-            "fa-cc-stripe" => "fab fa-cc-stripe",
-            "fa-cc-visa" => "fab fa-cc-visa",
-            "fa-centercode" => "fab fa-centercode",
-            "fa-certificate" => "fas fa-certificate",
-            "fa-chart-area" => "fas fa-chart-area",
-            "fa-chart-bar" => "far fa-chart-bar",
-            "fa-chart-line" => "fas fa-chart-line",
-            "fa-chart-pie" => "fas fa-chart-pie",
-            "fa-check" => "fas fa-check",
-            "fa-check-circle" => "far fa-check-circle",
-            "fa-check-square" => "far fa-check-square",
-            "fa-chess" => "fas fa-chess",
-            "fa-chess-bishop" => "fas fa-chess-bishop",
-            "fa-chess-board" => "fas fa-chess-board",
-            "fa-chess-king" => "fas fa-chess-king",
-            "fa-chess-knight" => "fas fa-chess-knight",
-            "fa-chess-pawn" => "fas fa-chess-pawn",
-            "fa-chess-queen" => "fas fa-chess-queen",
-            "fa-chess-rook" => "fas fa-chess-rook",
-            "fa-chevron-circle-down" => "fas fa-chevron-circle-down",
-            "fa-chevron-circle-left" => "fas fa-chevron-circle-left",
-            "fa-chevron-circle-right" => "fas fa-chevron-circle-right",
-            "fa-chevron-circle-up" => "fas fa-chevron-circle-up",
-            "fa-chevron-down" => "fas fa-chevron-down",
-            "fa-chevron-left" => "fas fa-chevron-left",
-            "fa-chevron-right" => "fas fa-chevron-right",
-            "fa-chevron-up" => "fas fa-chevron-up",
-            "fa-child" => "fas fa-child",
-            "fa-chrome" => "fab fa-chrome",
-            "fa-circle" => "far fa-circle",
-            "fa-circle-notch" => "fas fa-circle-notch",
-            "fa-clipboard" => "far fa-clipboard",
-            "fa-clipboard-check" => "fas fa-clipboard-check",
-            "fa-clipboard-list" => "fas fa-clipboard-list",
-            "fa-clock" => "far fa-clock",
-            "fa-clone" => "far fa-clone",
-            "fa-closed-captioning" => "far fa-closed-captioning",
-            "fa-cloud" => "fas fa-cloud",
-            "fa-cloud-download-alt" => "fas fa-cloud-download-alt",
-            "fa-cloud-upload-alt" => "fas fa-cloud-upload-alt",
-            "fa-cloudscale" => "fab fa-cloudscale",
-            "fa-cloudsmith" => "fab fa-cloudsmith",
-            "fa-cloudversify" => "fab fa-cloudversify",
-            "fa-code" => "fas fa-code",
-            "fa-code-branch" => "fas fa-code-branch",
-            "fa-codepen" => "fab fa-codepen",
-            "fa-codiepie" => "fab fa-codiepie",
-            "fa-coffee" => "fas fa-coffee",
-            "fa-cog" => "fas fa-cog",
-            "fa-cogs" => "fas fa-cogs",
-            "fa-columns" => "fas fa-columns",
-            "fa-comment" => "far fa-comment",
-            "fa-comment-alt" => "far fa-comment-alt",
-            "fa-comment-dots" => "fas fa-comment-dots",
-            "fa-comment-slash" => "fas fa-comment-slash",
-            "fa-comments" => "far fa-comments",
-            "fa-compass" => "far fa-compass",
-            "fa-compress" => "fas fa-compress",
-            "fa-connectdevelop" => "fab fa-connectdevelop",
-            "fa-contao" => "fab fa-contao",
-            "fa-copy" => "far fa-copy",
-            "fa-copyright" => "far fa-copyright",
-            "fa-couch" => "fas fa-couch",
-            "fa-cpanel" => "fab fa-cpanel",
-            "fa-creative-commons" => "fab fa-creative-commons",
-            "fa-credit-card" => "far fa-credit-card",
-            "fa-crop" => "fas fa-crop",
-            "fa-crosshairs" => "fas fa-crosshairs",
-            "fa-css3" => "fab fa-css3",
-            "fa-css3-alt" => "fab fa-css3-alt",
-            "fa-cube" => "fas fa-cube",
-            "fa-cubes" => "fas fa-cubes",
-            "fa-cut" => "fas fa-cut",
-            "fa-cuttlefish" => "fab fa-cuttlefish",
-            "fa-d-and-d" => "fab fa-d-and-d",
-            "fa-dashcube" => "fab fa-dashcube",
-            "fa-database" => "fas fa-database",
-            "fa-deaf" => "fas fa-deaf",
-            "fa-delicious" => "fab fa-delicious",
-            "fa-deploydog" => "fab fa-deploydog",
-            "fa-deskpro" => "fab fa-deskpro",
-            "fa-desktop" => "fas fa-desktop",
-            "fa-deviantart" => "fab fa-deviantart",
-            "fa-diagnoses" => "fas fa-diagnoses",
-            "fa-digg" => "fab fa-digg",
-            "fa-digital-ocean" => "fab fa-digital-ocean",
-            "fa-discord" => "fab fa-discord",
-            "fa-discourse" => "fab fa-discourse",
-            "fa-dna" => "fas fa-dna",
-            "fa-dochub" => "fab fa-dochub",
-            "fa-docker" => "fab fa-docker",
-            "fa-dollar-sign" => "fas fa-dollar-sign",
-            "fa-dolly" => "fas fa-dolly",
-            "fa-dolly-flatbed" => "fas fa-dolly-flatbed",
-            "fa-donate" => "fas fa-donate",
-            "fa-dot-circle" => "far fa-dot-circle",
-            "fa-dove" => "fas fa-dove",
-            "fa-download" => "fas fa-download",
-            "fa-draft2digital" => "fab fa-draft2digital",
-            "fa-dribbble" => "fab fa-dribbble",
-            "fa-dribbble-square" => "fab fa-dribbble-square",
-            "fa-dropbox" => "fab fa-dropbox",
-            "fa-drupal" => "fab fa-drupal",
-            "fa-dyalog" => "fab fa-dyalog",
-            "fa-earlybirds" => "fab fa-earlybirds",
-            "fa-edge" => "fab fa-edge",
-            "fa-edit" => "far fa-edit",
-            "fa-eject" => "fas fa-eject",
-            "fa-elementor" => "fab fa-elementor",
-            "fa-ellipsis-h" => "fas fa-ellipsis-h",
-            "fa-ellipsis-v" => "fas fa-ellipsis-v",
-            "fa-ember" => "fab fa-ember",
-            "fa-empire" => "fab fa-empire",
-            "fa-envelope" => "far fa-envelope",
-            "fa-envelope-open" => "far fa-envelope-open",
-            "fa-envelope-square" => "fas fa-envelope-square",
-            "fa-envira" => "fab fa-envira",
-            "fa-eraser" => "fas fa-eraser",
-            "fa-erlang" => "fab fa-erlang",
-            "fa-ethereum" => "fab fa-ethereum",
-            "fa-etsy" => "fab fa-etsy",
-            "fa-euro-sign" => "fas fa-euro-sign",
-            "fa-exchange-alt" => "fas fa-exchange-alt",
-            "fa-exclamation" => "fas fa-exclamation",
-            "fa-exclamation-circle" => "fas fa-exclamation-circle",
-            "fa-exclamation-triangle" => "fas fa-exclamation-triangle",
-            "fa-expand" => "fas fa-expand",
-            "fa-expand-arrows-alt" => "fas fa-expand-arrows-alt",
-            "fa-expeditedssl" => "fab fa-expeditedssl",
-            "fa-external-link-alt" => "fas fa-external-link-alt",
-            "fa-external-link-square-alt" => "fas fa-external-link-square-alt",
-            "fa-eye" => "fas fa-eye",
-            "fa-eye-dropper" => "fas fa-eye-dropper",
-            "fa-eye-slash" => "far fa-eye-slash",
-            "fa-facebook" => "fab fa-facebook",
-            "fa-facebook-f" => "fab fa-facebook-f",
-            "fa-facebook-messenger" => "fab fa-facebook-messenger",
-            "fa-facebook-square" => "fab fa-facebook-square",
-            "fa-fast-backward" => "fas fa-fast-backward",
-            "fa-fast-forward" => "fas fa-fast-forward",
-            "fa-fax" => "fas fa-fax",
-            "fa-female" => "fas fa-female",
-            "fa-fighter-jet" => "fas fa-fighter-jet",
-            "fa-file" => "far fa-file",
-            "fa-file-alt" => "far fa-file-alt",
-            "fa-file-archive" => "far fa-file-archive",
-            "fa-file-audio" => "far fa-file-audio",
-            "fa-file-code" => "far fa-file-code",
-            "fa-file-excel" => "far fa-file-excel",
-            "fa-file-image" => "far fa-file-image",
-            "fa-file-medical" => "fas fa-file-medical",
-            "fa-file-medical-alt" => "fas fa-file-medical-alt",
-            "fa-file-pdf" => "far fa-file-pdf",
-            "fa-file-powerpoint" => "far fa-file-powerpoint",
-            "fa-file-video" => "far fa-file-video",
-            "fa-file-word" => "far fa-file-word",
-            "fa-film" => "fas fa-film",
-            "fa-filter" => "fas fa-filter",
-            "fa-fire" => "fas fa-fire",
-            "fa-fire-extinguisher" => "fas fa-fire-extinguisher",
-            "fa-firefox" => "fab fa-firefox",
-            "fa-first-aid" => "fas fa-first-aid",
-            "fa-first-order" => "fab fa-first-order",
-            "fa-firstdraft" => "fab fa-firstdraft",
-            "fa-flag" => "far fa-flag",
-            "fa-flag-checkered" => "fas fa-flag-checkered",
-            "fa-flask" => "fas fa-flask",
-            "fa-flickr" => "fab fa-flickr",
-            "fa-flipboard" => "fab fa-flipboard",
-            "fa-fly" => "fab fa-fly",
-            "fa-folder" => "far fa-folder",
-            "fa-folder-open" => "far fa-folder-open",
-            "fa-font" => "fas fa-font",
-            "fa-font-awesome" => "fab fa-font-awesome",
-            "fa-font-awesome-alt" => "fab fa-font-awesome-alt",
-            "fa-font-awesome-flag" => "fab fa-font-awesome-flag",
-            "fa-fonticons" => "fab fa-fonticons",
-            "fa-fonticons-fi" => "fab fa-fonticons-fi",
-            "fa-football-ball" => "fas fa-football-ball",
-            "fa-fort-awesome" => "fab fa-fort-awesome",
-            "fa-fort-awesome-alt" => "fab fa-fort-awesome-alt",
-            "fa-forumbee" => "fab fa-forumbee",
-            "fa-forward" => "fas fa-forward",
-            "fa-foursquare" => "fab fa-foursquare",
-            "fa-free-code-camp" => "fab fa-free-code-camp",
-            "fa-freebsd" => "fab fa-freebsd",
-            "fa-frown" => "far fa-frown",
-            "fa-futbol" => "far fa-futbol",
-            "fa-gamepad" => "fas fa-gamepad",
-            "fa-gavel" => "fas fa-gavel",
-            "fa-gem" => "far fa-gem",
-            "fa-genderless" => "fas fa-genderless",
-            "fa-get-pocket" => "fab fa-get-pocket",
-            "fa-gg" => "fab fa-gg",
-            "fa-gg-circle" => "fab fa-gg-circle",
-            "fa-gift" => "fas fa-gift",
-            "fa-git" => "fab fa-git",
-            "fa-git-square" => "fab fa-git-square",
-            "fa-github" => "fab fa-github",
-            "fa-github-alt" => "fab fa-github-alt",
-            "fa-github-square" => "fab fa-github-square",
-            "fa-gitkraken" => "fab fa-gitkraken",
-            "fa-gitlab" => "fab fa-gitlab",
-            "fa-gitter" => "fab fa-gitter",
-            "fa-glass-martini" => "fas fa-glass-martini",
-            "fa-glide" => "fab fa-glide",
-            "fa-glide-g" => "fab fa-glide-g",
-            "fa-globe" => "fas fa-globe",
-            "fa-gofore" => "fab fa-gofore",
-            "fa-golf-ball" => "fas fa-golf-ball",
-            "fa-goodreads" => "fab fa-goodreads",
-            "fa-goodreads-g" => "fab fa-goodreads-g",
-            "fa-google" => "fab fa-google",
-            "fa-google-drive" => "fab fa-google-drive",
-            "fa-google-play" => "fab fa-google-play",
-            "fa-google-plus" => "fab fa-google-plus",
-            "fa-google-plus-g" => "fab fa-google-plus-g",
-            "fa-google-plus-square" => "fab fa-google-plus-square",
-            "fa-google-wallet" => "fab fa-google-wallet",
-            "fa-graduation-cap" => "fas fa-graduation-cap",
-            "fa-gratipay" => "fab fa-gratipay",
-            "fa-grav" => "fab fa-grav",
-            "fa-gripfire" => "fab fa-gripfire",
-            "fa-grunt" => "fab fa-grunt",
-            "fa-gulp" => "fab fa-gulp",
-            "fa-h-square" => "fas fa-h-square",
-            "fa-hacker-news" => "fab fa-hacker-news",
-            "fa-hacker-news-square" => "fab fa-hacker-news-square",
-            "fa-hand-holding" => "fas fa-hand-holding",
-            "fa-hand-holding-heart" => "fas fa-hand-holding-heart",
-            "fa-hand-holding-usd" => "fas fa-hand-holding-usd",
-            "fa-hand-lizard" => "far fa-hand-lizard",
-            "fa-hand-paper" => "far fa-hand-paper",
-            "fa-hand-peace" => "far fa-hand-peace",
-            "fa-hand-point-down" => "far fa-hand-point-down",
-            "fa-hand-point-left" => "far fa-hand-point-left",
-            "fa-hand-point-right" => "far fa-hand-point-right",
-            "fa-hand-point-up" => "far fa-hand-point-up",
-            "fa-hand-pointer" => "far fa-hand-pointer",
-            "fa-hand-rock" => "far fa-hand-rock",
-            "fa-hand-scissors" => "far fa-hand-scissors",
-            "fa-hand-spock" => "far fa-hand-spock",
-            "fa-hands" => "fas fa-hands",
-            "fa-hands-helping" => "fas fa-hands-helping",
-            "fa-handshake" => "far fa-handshake",
-            "fa-hashtag" => "fas fa-hashtag",
-            "fa-hdd" => "far fa-hdd",
-            "fa-heading" => "fas fa-heading",
-            "fa-headphones" => "fas fa-headphones",
-            "fa-heart" => "far fa-heart",
-            "fa-heartbeat" => "fas fa-heartbeat",
-            "fa-hips" => "fab fa-hips",
-            "fa-hire-a-helper" => "fab fa-hire-a-helper",
-            "fa-history" => "fas fa-history",
-            "fa-hockey-puck" => "fas fa-hockey-puck",
-            "fa-home" => "fas fa-home",
-            "fa-hooli" => "fab fa-hooli",
-            "fa-hospital" => "far fa-hospital",
-            "fa-hospital-alt" => "fas fa-hospital-alt",
-            "fa-hospital-symbol" => "fas fa-hospital-symbol",
-            "fa-hotjar" => "fab fa-hotjar",
-            "fa-hourglass" => "far fa-hourglass",
-            "fa-hourglass-end" => "fas fa-hourglass-end",
-            "fa-hourglass-half" => "fas fa-hourglass-half",
-            "fa-hourglass-start" => "fas fa-hourglass-start",
-            "fa-houzz" => "fab fa-houzz",
-            "fa-html5" => "fab fa-html5",
-            "fa-hubspot" => "fab fa-hubspot",
-            "fa-i-cursor" => "fas fa-i-cursor",
-            "fa-id-badge" => "far fa-id-badge",
-            "fa-id-card" => "far fa-id-card",
-            "fa-id-card-alt" => "fas fa-id-card-alt",
-            "fa-image" => "far fa-image",
-            "fa-images" => "far fa-images",
-            "fa-imdb" => "fab fa-imdb",
-            "fa-inbox" => "fas fa-inbox",
-            "fa-indent" => "fas fa-indent",
-            "fa-industry" => "fas fa-industry",
-            "fa-info" => "fas fa-info",
-            "fa-info-circle" => "fas fa-info-circle",
-            "fa-instagram" => "fab fa-instagram",
-            "fa-internet-explorer" => "fab fa-internet-explorer",
-            "fa-ioxhost" => "fab fa-ioxhost",
-            "fa-italic" => "fas fa-italic",
-            "fa-itunes" => "fab fa-itunes",
-            "fa-itunes-note" => "fab fa-itunes-note",
-            "fa-java" => "fab fa-java",
-            "fa-jenkins" => "fab fa-jenkins",
-            "fa-joget" => "fab fa-joget",
-            "fa-joomla" => "fab fa-joomla",
-            "fa-js" => "fab fa-js",
-            "fa-js-square" => "fab fa-js-square",
-            "fa-jsfiddle" => "fab fa-jsfiddle",
-            "fa-key" => "fas fa-key",
-            "fa-keyboard" => "far fa-keyboard",
-            "fa-keycdn" => "fab fa-keycdn",
-            "fa-kickstarter" => "fab fa-kickstarter",
-            "fa-kickstarter-k" => "fab fa-kickstarter-k",
-            "fa-korvue" => "fab fa-korvue",
-            "fa-language" => "fas fa-language",
-            "fa-laptop" => "fas fa-laptop",
-            "fa-laravel" => "fab fa-laravel",
-            "fa-lastfm" => "fab fa-lastfm",
-            "fa-lastfm-square" => "fab fa-lastfm-square",
-            "fa-leaf" => "fas fa-leaf",
-            "fa-leanpub" => "fab fa-leanpub",
-            "fa-lemon" => "far fa-lemon",
-            "fa-less" => "fab fa-less",
-            "fa-level-down-alt" => "fas fa-level-down-alt",
-            "fa-level-up-alt" => "fas fa-level-up-alt",
-            "fa-life-ring" => "far fa-life-ring",
-            "fa-lightbulb" => "far fa-lightbulb",
-            "fa-line" => "fab fa-line",
-            "fa-link" => "fas fa-link",
-            "fa-linkedin" => "fab fa-linkedin",
-            "fa-linkedin-in" => "fab fa-linkedin-in",
-            "fa-linode" => "fab fa-linode",
-            "fa-linux" => "fab fa-linux",
-            "fa-lira-sign" => "fas fa-lira-sign",
-            "fa-list" => "fas fa-list",
-            "fa-list-alt" => "far fa-list-alt",
-            "fa-list-ol" => "fas fa-list-ol",
-            "fa-list-ul" => "fas fa-list-ul",
-            "fa-location-arrow" => "fas fa-location-arrow",
-            "fa-lock" => "fas fa-lock",
-            "fa-lock-open" => "fas fa-lock-open",
-            "fa-long-arrow-alt-down" => "fas fa-long-arrow-alt-down",
-            "fa-long-arrow-alt-left" => "fas fa-long-arrow-alt-left",
-            "fa-long-arrow-alt-right" => "fas fa-long-arrow-alt-right",
-            "fa-long-arrow-alt-up" => "fas fa-long-arrow-alt-up",
-            "fa-low-vision" => "fas fa-low-vision",
-            "fa-lyft" => "fab fa-lyft",
-            "fa-magento" => "fab fa-magento",
-            "fa-magic" => "fas fa-magic",
-            "fa-magnet" => "fas fa-magnet",
-            "fa-male" => "fas fa-male",
-            "fa-map" => "far fa-map",
-            "fa-map-marker" => "fas fa-map-marker",
-            "fa-map-marker-alt" => "fas fa-map-marker-alt",
-            "fa-map-pin" => "fas fa-map-pin",
-            "fa-map-signs" => "fas fa-map-signs",
-            "fa-mars" => "fas fa-mars",
-            "fa-mars-double" => "fas fa-mars-double",
-            "fa-mars-stroke" => "fas fa-mars-stroke",
-            "fa-mars-stroke-h" => "fas fa-mars-stroke-h",
-            "fa-mars-stroke-v" => "fas fa-mars-stroke-v",
-            "fa-maxcdn" => "fab fa-maxcdn",
-            "fa-medapps" => "fab fa-medapps",
-            "fa-medium" => "fab fa-medium",
-            "fa-medium-m" => "fab fa-medium-m",
-            "fa-medkit" => "fas fa-medkit",
-            "fa-medrt" => "fab fa-medrt",
-            "fa-meetup" => "fab fa-meetup",
-            "fa-meh" => "far fa-meh",
-            "fa-mercury" => "fas fa-mercury",
-            "fa-microchip" => "fas fa-microchip",
-            "fa-microphone" => "fas fa-microphone",
-            "fa-microphone-slash" => "fas fa-microphone-slash",
-            "fa-microsoft" => "fab fa-microsoft",
-            "fa-minus" => "fas fa-minus",
-            "fa-minus-circle" => "fas fa-minus-circle",
-            "fa-minus-square" => "far fa-minus-square",
-            "fa-mix" => "fab fa-mix",
-            "fa-mixcloud" => "fab fa-mixcloud",
-            "fa-mizuni" => "fab fa-mizuni",
-            "fa-mobile" => "fas fa-mobile",
-            "fa-mobile-alt" => "fas fa-mobile-alt",
-            "fa-modx" => "fab fa-modx",
-            "fa-monero" => "fab fa-monero",
-            "fa-money-bill-alt" => "far fa-money-bill-alt",
-            "fa-moon" => "far fa-moon",
-            "fa-motorcycle" => "fas fa-motorcycle",
-            "fa-mouse-pointer" => "fas fa-mouse-pointer",
-            "fa-music" => "fas fa-music",
-            "fa-napster" => "fab fa-napster",
-            "fa-neuter" => "fas fa-neuter",
-            "fa-newspaper" => "far fa-newspaper",
-            "fa-nintendo-switch" => "fab fa-nintendo-switch",
-            "fa-node" => "fab fa-node",
-            "fa-node-js" => "fab fa-node-js",
-            "fa-notes-medical" => "fas fa-notes-medical",
-            "fa-npm" => "fab fa-npm",
-            "fa-ns8" => "fab fa-ns8",
-            "fa-nutritionix" => "fab fa-nutritionix",
-            "fa-object-group" => "far fa-object-group",
-            "fa-object-ungroup" => "far fa-object-ungroup",
-            "fa-odnoklassniki" => "fab fa-odnoklassniki",
-            "fa-odnoklassniki-square" => "fab fa-odnoklassniki-square",
-            "fa-opencart" => "fab fa-opencart",
-            "fa-openid" => "fab fa-openid",
-            "fa-opera" => "fab fa-opera",
-            "fa-optin-monster" => "fab fa-optin-monster",
-            "fa-osi" => "fab fa-osi",
-            "fa-outdent" => "fas fa-outdent",
-            "fa-page4" => "fab fa-page4",
-            "fa-pagelines" => "fab fa-pagelines",
-            "fa-paint-brush" => "fas fa-paint-brush",
-            "fa-palfed" => "fab fa-palfed",
-            "fa-pallet" => "fas fa-pallet",
-            "fa-paper-plane" => "far fa-paper-plane",
-            "fa-paperclip" => "fas fa-paperclip",
-            "fa-parachute-box" => "fas fa-parachute-box",
-            "fa-paragraph" => "fas fa-paragraph",
-            "fa-paste" => "fas fa-paste",
-            "fa-patreon" => "fab fa-patreon",
-            "fa-pause" => "fas fa-pause",
-            "fa-pause-circle" => "far fa-pause-circle",
-            "fa-paw" => "fas fa-paw",
-            "fa-paypal" => "fab fa-paypal",
-            "fa-pen-square" => "fas fa-pen-square",
-            "fa-pencil-alt" => "fas fa-pencil-alt",
-            "fa-people-carry" => "fas fa-people-carry",
-            "fa-percent" => "fas fa-percent",
-            "fa-periscope" => "fab fa-periscope",
-            "fa-phabricator" => "fab fa-phabricator",
-            "fa-phoenix-framework" => "fab fa-phoenix-framework",
-            "fa-phone" => "fas fa-phone",
-            "fa-phone-slash" => "fas fa-phone-slash",
-            "fa-phone-square" => "fas fa-phone-square",
-            "fa-phone-volume" => "fas fa-phone-volume",
-            "fa-php" => "fab fa-php",
-            "fa-pied-piper" => "fab fa-pied-piper",
-            "fa-pied-piper-alt" => "fab fa-pied-piper-alt",
-            "fa-pied-piper-hat" => "fab fa-pied-piper-hat",
-            "fa-pied-piper-pp" => "fab fa-pied-piper-pp",
-            "fa-piggy-bank" => "fas fa-piggy-bank",
-            "fa-pills" => "fas fa-pills",
-            "fa-pinterest" => "fab fa-pinterest",
-            "fa-pinterest-p" => "fab fa-pinterest-p",
-            "fa-pinterest-square" => "fab fa-pinterest-square",
-            "fa-plane" => "fas fa-plane",
-            "fa-play" => "fas fa-play",
-            "fa-play-circle" => "far fa-play-circle",
-            "fa-playstation" => "fab fa-playstation",
-            "fa-plug" => "fas fa-plug",
-            "fa-plus" => "fas fa-plus",
-            "fa-plus-circle" => "fas fa-plus-circle",
-            "fa-plus-square" => "far fa-plus-square",
-            "fa-podcast" => "fas fa-podcast",
-            "fa-poo" => "fas fa-poo",
-            "fa-pound-sign" => "fas fa-pound-sign",
-            "fa-power-off" => "fas fa-power-off",
-            "fa-prescription-bottle" => "fas fa-prescription-bottle",
-            "fa-prescription-bottle-alt" => "fas fa-prescription-bottle-alt",
-            "fa-print" => "fas fa-print",
-            "fa-procedures" => "fas fa-procedures",
-            "fa-product-hunt" => "fab fa-product-hunt",
-            "fa-pushed" => "fab fa-pushed",
-            "fa-puzzle-piece" => "fas fa-puzzle-piece",
-            "fa-python" => "fab fa-python",
-            "fa-qq" => "fab fa-qq",
-            "fa-qrcode" => "fas fa-qrcode",
-            "fa-question" => "fas fa-question",
-            "fa-question-circle" => "far fa-question-circle",
-            "fa-quidditch" => "fas fa-quidditch",
-            "fa-quinscape" => "fab fa-quinscape",
-            "fa-quora" => "fab fa-quora",
-            "fa-quote-left" => "fas fa-quote-left",
-            "fa-quote-right" => "fas fa-quote-right",
-            "fa-random" => "fas fa-random",
-            "fa-ravelry" => "fab fa-ravelry",
-            "fa-react" => "fab fa-react",
-            "fa-readme" => "fab fa-readme",
-            "fa-rebel" => "fab fa-rebel",
-            "fa-recycle" => "fas fa-recycle",
-            "fa-red-river" => "fab fa-red-river",
-            "fa-reddit" => "fab fa-reddit",
-            "fa-reddit-alien" => "fab fa-reddit-alien",
-            "fa-reddit-square" => "fab fa-reddit-square",
-            "fa-redo" => "fas fa-redo",
-            "fa-redo-alt" => "fas fa-redo-alt",
-            "fa-registered" => "far fa-registered",
-            "fa-rendact" => "fab fa-rendact",
-            "fa-renren" => "fab fa-renren",
-            "fa-reply" => "fas fa-reply",
-            "fa-reply-all" => "fas fa-reply-all",
-            "fa-replyd" => "fab fa-replyd",
-            "fa-resolving" => "fab fa-resolving",
-            "fa-retweet" => "fas fa-retweet",
-            "fa-ribbon" => "fas fa-ribbon",
-            "fa-road" => "fas fa-road",
-            "fa-rocket" => "fas fa-rocket",
-            "fa-rocketchat" => "fab fa-rocketchat",
-            "fa-rockrms" => "fab fa-rockrms",
-            "fa-rss" => "fas fa-rss",
-            "fa-rss-square" => "fas fa-rss-square",
-            "fa-ruble-sign" => "fas fa-ruble-sign",
-            "fa-rupee-sign" => "fas fa-rupee-sign",
-            "fa-safari" => "fab fa-safari",
-            "fa-sass" => "fab fa-sass",
-            "fa-save" => "far fa-save",
-            "fa-schlix" => "fab fa-schlix",
-            "fa-scribd" => "fab fa-scribd",
-            "fa-search" => "fas fa-search",
-            "fa-search-minus" => "fas fa-search-minus",
-            "fa-search-plus" => "fas fa-search-plus",
-            "fa-searchengin" => "fab fa-searchengin",
-            "fa-seedling" => "fas fa-seedling",
-            "fa-sellcast" => "fab fa-sellcast",
-            "fa-sellsy" => "fab fa-sellsy",
-            "fa-server" => "fas fa-server",
-            "fa-servicestack" => "fab fa-servicestack",
-            "fa-share" => "fas fa-share",
-            "fa-share-alt" => "fas fa-share-alt",
-            "fa-share-alt-square" => "fas fa-share-alt-square",
-            "fa-share-square" => "far fa-share-square",
-            "fa-shekel-sign" => "fas fa-shekel-sign",
-            "fa-shield-alt" => "fas fa-shield-alt",
-            "fa-ship" => "fas fa-ship",
-            "fa-shipping-fast" => "fas fa-shipping-fast",
-            "fa-shirtsinbulk" => "fab fa-shirtsinbulk",
-            "fa-shopping-bag" => "fas fa-shopping-bag",
-            "fa-shopping-basket" => "fas fa-shopping-basket",
-            "fa-shopping-cart" => "fas fa-shopping-cart",
-            "fa-shower" => "fas fa-shower",
-            "fa-sign" => "fas fa-sign",
-            "fa-sign-in-alt" => "fas fa-sign-in-alt",
-            "fa-sign-language" => "fas fa-sign-language",
-            "fa-sign-out-alt" => "fas fa-sign-out-alt",
-            "fa-signal" => "fas fa-signal",
-            "fa-simplybuilt" => "fab fa-simplybuilt",
-            "fa-sistrix" => "fab fa-sistrix",
-            "fa-sitemap" => "fas fa-sitemap",
-            "fa-skyatlas" => "fab fa-skyatlas",
-            "fa-skype" => "fab fa-skype",
-            "fa-slack" => "fab fa-slack",
-            "fa-slack-hash" => "fab fa-slack-hash",
-            "fa-sliders-h" => "fas fa-sliders-h",
-            "fa-slideshare" => "fab fa-slideshare",
-            "fa-smile" => "far fa-smile",
-            "fa-smoking" => "fas fa-smoking",
-            "fa-snapchat" => "fab fa-snapchat",
-            "fa-snapchat-ghost" => "fab fa-snapchat-ghost",
-            "fa-snapchat-square" => "fab fa-snapchat-square",
-            "fa-snowflake" => "far fa-snowflake",
-            "fa-sort" => "fas fa-sort",
-            "fa-sort-alpha-down" => "fas fa-sort-alpha-down",
-            "fa-sort-alpha-up" => "fas fa-sort-alpha-up",
-            "fa-sort-amount-down" => "fas fa-sort-amount-down",
-            "fa-sort-amount-up" => "fas fa-sort-amount-up",
-            "fa-sort-down" => "fas fa-sort-down",
-            "fa-sort-numeric-down" => "fas fa-sort-numeric-down",
-            "fa-sort-numeric-up" => "fas fa-sort-numeric-up",
-            "fa-sort-up" => "fas fa-sort-up",
-            "fa-soundcloud" => "fab fa-soundcloud",
-            "fa-space-shuttle" => "fas fa-space-shuttle",
-            "fa-speakap" => "fab fa-speakap",
-            "fa-spinner" => "fas fa-spinner",
-            "fa-spotify" => "fab fa-spotify",
-            "fa-square" => "far fa-square",
-            "fa-square-full" => "fas fa-square-full",
-            "fa-stack-exchange" => "fab fa-stack-exchange",
-            "fa-stack-overflow" => "fab fa-stack-overflow",
-            "fa-star" => "far fa-star",
-            "fa-star-half" => "far fa-star-half",
-            "fa-staylinked" => "fab fa-staylinked",
-            "fa-steam" => "fab fa-steam",
-            "fa-steam-square" => "fab fa-steam-square",
-            "fa-steam-symbol" => "fab fa-steam-symbol",
-            "fa-step-backward" => "fas fa-step-backward",
-            "fa-step-forward" => "fas fa-step-forward",
-            "fa-stethoscope" => "fas fa-stethoscope",
-            "fa-sticker-mule" => "fab fa-sticker-mule",
-            "fa-sticky-note" => "far fa-sticky-note",
-            "fa-stop" => "fas fa-stop",
-            "fa-stop-circle" => "far fa-stop-circle",
-            "fa-stopwatch" => "fas fa-stopwatch",
-            "fa-strava" => "fab fa-strava",
-            "fa-street-view" => "fas fa-street-view",
-            "fa-strikethrough" => "fas fa-strikethrough",
-            "fa-stripe" => "fab fa-stripe",
-            "fa-stripe-s" => "fab fa-stripe-s",
-            "fa-studiovinari" => "fab fa-studiovinari",
-            "fa-stumbleupon" => "fab fa-stumbleupon",
-            "fa-stumbleupon-circle" => "fab fa-stumbleupon-circle",
-            "fa-subscript" => "fas fa-subscript",
-            "fa-subway" => "fas fa-subway",
-            "fa-suitcase" => "fas fa-suitcase",
-            "fa-sun" => "far fa-sun",
-            "fa-superpowers" => "fab fa-superpowers",
-            "fa-superscript" => "fas fa-superscript",
-            "fa-supple" => "fab fa-supple",
-            "fa-sync" => "fas fa-sync",
-            "fa-sync-alt" => "fas fa-sync-alt",
-            "fa-syringe" => "fas fa-syringe",
-            "fa-table" => "fas fa-table",
-            "fa-table-tennis" => "fas fa-table-tennis",
-            "fa-tablet" => "fas fa-tablet",
-            "fa-tablet-alt" => "fas fa-tablet-alt",
-            "fa-tablets" => "fas fa-tablets",
-            "fa-tachometer-alt" => "fas fa-tachometer-alt",
-            "fa-tag" => "fas fa-tag",
-            "fa-tags" => "fas fa-tags",
-            "fa-tape" => "fas fa-tape",
-            "fa-tasks" => "fas fa-tasks",
-            "fa-taxi" => "fas fa-taxi",
-            "fa-telegram" => "fab fa-telegram",
-            "fa-telegram-plane" => "fab fa-telegram-plane",
-            "fa-tencent-weibo" => "fab fa-tencent-weibo",
-            "fa-terminal" => "fas fa-terminal",
-            "fa-text-height" => "fas fa-text-height",
-            "fa-text-width" => "fas fa-text-width",
-            "fa-th" => "fas fa-th",
-            "fa-th-large" => "fas fa-th-large",
-            "fa-th-list" => "fas fa-th-list",
-            "fa-themeisle" => "fab fa-themeisle",
-            "fa-thermometer" => "fas fa-thermometer",
-            "fa-thermometer-empty" => "fas fa-thermometer-empty",
-            "fa-thermometer-full" => "fas fa-thermometer-full",
-            "fa-thermometer-half" => "fas fa-thermometer-half",
-            "fa-thermometer-quarter" => "fas fa-thermometer-quarter",
-            "fa-thermometer-three-quarters" => "fas fa-thermometer-three-quarters",
-            "fa-thumbs-down" => "far fa-thumbs-down",
-            "fa-thumbs-up" => "far fa-thumbs-up",
-            "fa-thumbtack" => "fas fa-thumbtack",
-            "fa-ticket-alt" => "fas fa-ticket-alt",
-            "fa-times" => "fas fa-times",
-            "fa-times-circle" => "far fa-times-circle",
-            "fa-tint" => "fas fa-tint",
-            "fa-toggle-off" => "fas fa-toggle-off",
-            "fa-toggle-on" => "fas fa-toggle-on",
-            "fa-trademark" => "fas fa-trademark",
-            "fa-train" => "fas fa-train",
-            "fa-transgender" => "fas fa-transgender",
-            "fa-transgender-alt" => "fas fa-transgender-alt",
-            "fa-trash" => "fas fa-trash",
-            "fa-trash-alt" => "far fa-trash-alt",
-            "fa-tree" => "fas fa-tree",
-            "fa-trello" => "fab fa-trello",
-            "fa-tripadvisor" => "fab fa-tripadvisor",
-            "fa-trophy" => "fas fa-trophy",
-            "fa-truck" => "fas fa-truck",
-            "fa-truck-loading" => "fas fa-truck-loading",
-            "fa-truck-moving" => "fas fa-truck-moving",
-            "fa-tty" => "fas fa-tty",
-            "fa-tumblr" => "fab fa-tumblr",
-            "fa-tumblr-square" => "fab fa-tumblr-square",
-            "fa-tv" => "fas fa-tv",
-            "fa-twitch" => "fab fa-twitch",
-            "fa-twitter" => "fab fa-twitter",
-            "fa-twitter-square" => "fab fa-twitter-square",
-            "fa-typo3" => "fab fa-typo3",
-            "fa-uber" => "fab fa-uber",
-            "fa-uikit" => "fab fa-uikit",
-            "fa-umbrella" => "fas fa-umbrella",
-            "fa-underline" => "fas fa-underline",
-            "fa-undo" => "fas fa-undo",
-            "fa-undo-alt" => "fas fa-undo-alt",
-            "fa-uniregistry" => "fab fa-uniregistry",
-            "fa-universal-access" => "fas fa-universal-access",
-            "fa-university" => "fas fa-university",
-            "fa-unlink" => "fas fa-unlink",
-            "fa-unlock" => "fas fa-unlock",
-            "fa-unlock-alt" => "fas fa-unlock-alt",
-            "fa-untappd" => "fab fa-untappd",
-            "fa-upload" => "fas fa-upload",
-            "fa-usb" => "fab fa-usb",
-            "fa-user" => "far fa-user",
-            "fa-user-circle" => "far fa-user-circle",
-            "fa-user-md" => "fas fa-user-md",
-            "fa-user-plus" => "fas fa-user-plus",
-            "fa-user-secret" => "fas fa-user-secret",
-            "fa-user-times" => "fas fa-user-times",
-            "fa-users" => "fas fa-users",
-            "fa-ussunnah" => "fab fa-ussunnah",
-            "fa-utensil-spoon" => "fas fa-utensil-spoon",
-            "fa-utensils" => "fas fa-utensils",
-            "fa-vaadin" => "fab fa-vaadin",
-            "fa-venus" => "fas fa-venus",
-            "fa-venus-double" => "fas fa-venus-double",
-            "fa-venus-mars" => "fas fa-venus-mars",
-            "fa-viacoin" => "fab fa-viacoin",
-            "fa-viadeo" => "fab fa-viadeo",
-            "fa-viadeo-square" => "fab fa-viadeo-square",
-            "fa-vial" => "fas fa-vial",
-            "fa-vials" => "fas fa-vials",
-            "fa-viber" => "fab fa-viber",
-            "fa-video" => "fas fa-video",
-            "fa-video-slash" => "fas fa-video-slash",
-            "fa-vimeo" => "fab fa-vimeo",
-            "fa-vimeo-square" => "fab fa-vimeo-square",
-            "fa-vimeo-v" => "fab fa-vimeo-v",
-            "fa-vine" => "fab fa-vine",
-            "fa-vk" => "fab fa-vk",
-            "fa-vnv" => "fab fa-vnv",
-            "fa-volleyball-ball" => "fas fa-volleyball-ball",
-            "fa-volume-down" => "fas fa-volume-down",
-            "fa-volume-off" => "fas fa-volume-off",
-            "fa-volume-up" => "fas fa-volume-up",
-            "fa-vuejs" => "fab fa-vuejs",
-            "fa-warehouse" => "fas fa-warehouse",
-            "fa-weibo" => "fab fa-weibo",
-            "fa-weight" => "fas fa-weight",
-            "fa-weixin" => "fab fa-weixin",
-            "fa-whatsapp" => "fab fa-whatsapp",
-            "fa-whatsapp-square" => "fab fa-whatsapp-square",
-            "fa-wheelchair" => "fas fa-wheelchair",
-            "fa-whmcs" => "fab fa-whmcs",
-            "fa-wifi" => "fas fa-wifi",
-            "fa-wikipedia-w" => "fab fa-wikipedia-w",
-            "fa-window-close" => "far fa-window-close",
-            "fa-window-maximize" => "far fa-window-maximize",
-            "fa-window-minimize" => "far fa-window-minimize",
-            "fa-window-restore" => "far fa-window-restore",
-            "fa-windows" => "fab fa-windows",
-            "fa-wine-glass" => "fas fa-wine-glass",
-            "fa-won-sign" => "fas fa-won-sign",
-            "fa-wordpress" => "fab fa-wordpress",
-            "fa-wordpress-simple" => "fab fa-wordpress-simple",
-            "fa-wpbeginner" => "fab fa-wpbeginner",
-            "fa-wpexplorer" => "fab fa-wpexplorer",
-            "fa-wpforms" => "fab fa-wpforms",
-            "fa-wrench" => "fas fa-wrench",
-            "fa-x-ray" => "fas fa-x-ray",
-            "fa-xbox" => "fab fa-xbox",
-            "fa-xing" => "fab fa-xing",
-            "fa-xing-square" => "fab fa-xing-square",
-            "fa-y-combinator" => "fab fa-y-combinator",
-            "fa-yahoo" => "fab fa-yahoo",
-            "fa-yandex" => "fab fa-yandex",
-            "fa-yandex-international" => "fab fa-yandex-international",
-            "fa-yelp" => "fab fa-yelp",
-            "fa-yen-sign" => "fas fa-yen-sign",
-            "fa-yoast" => "fab fa-yoast",
-            "fa-youtube" => "fab fa-youtube",
-            "fa-youtube-square" => "fab fa-youtube-square",
-        );
+	function wpar_sanitize_fields( $fields ) {
 
-        return !empty( $icons[$key] ) ? $icons[$key] : $icons;
+		$settings = array();
 
-    }
+		if ( ! empty( $fields ) && is_array( $fields ) ) {
+			foreach ( $fields as $key => $field ) {
+				if ( ! empty( $field ) && is_array( $field ) ) {
+					$sanitize_field = wpar_sanitize_fields( $field );
+				} else {
+					$sanitize_field = sanitize_text_field( $field );
+				}
+
+				$settings[ $key ] = $sanitize_field;
+			}
+		}
+
+		return $settings;
+	}
 }
