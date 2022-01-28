@@ -120,20 +120,6 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
          */
         public function add_product_notify_button() {
 
-            /* Add product in cart and redirect on checkout page */
-
-            if ( ! empty( $_REQUEST['buy_now'] ) && '1' === sanitize_text_field( $_REQUEST['buy_now'] ) ) {
-
-                $product_id   = ! empty( $_REQUEST['product_id'] ) ? sanitize_text_field( $_REQUEST['product_id'] ) : 0;
-
-                WC()->cart->empty_cart();
-
-                WC()->cart->add_to_cart( $product_id, 1 );
-
-                wp_safe_redirect( wc_get_checkout_url() );
-                exit;
-            }
-
             /* Remove add to cart button from the autorelease product */
 
             $loop = false;
@@ -238,12 +224,13 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 
                     $notify_product            = get_post_meta( $product_id, 'notify_product', true );
                     $notify_product_lead       = get_post_meta( $product_id, 'notify_product_lead', true );
+                    $enable_notification       = get_post_meta( $product_id, 'enable_notification', true );
                     $notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
                     $notify_product_voted_ip   = get_post_meta( $product_id, 'notify_product_voted_ip', true );
                     $notify_product_lead_count = ! empty( $notify_product_lead_count ) ? esc_attr( (int) $notify_product_lead_count ) : 0;
                     $notify_product_voted_ip   = ! empty( $notify_product_voted_ip ) ? $notify_product_voted_ip : array();
 
-                    if ( ! empty( $notify_product ) && 'yes' === esc_attr( $notify_product ) ) {
+                    if ( ! empty( $notify_product ) && 'yes' === esc_attr( $notify_product ) && ! empty( $enable_notification ) && 'yes' === $enable_notification ) {
                         $server = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '';
                         if ( in_array( $server, $notify_product_voted_ip, true ) ) {
                             $message = get_wpar_message( 'notification_vote_exists' );
@@ -322,6 +309,8 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
         public function reset_settings( $product_id ) {
 
             update_post_meta( $product_id, 'notify_product', '' );
+            update_post_meta( $product_id, 'enable_notification', '' );
+            update_post_meta( $product_id, 'enable_auto_release', '' );
             update_post_meta( $product_id, 'notification_type', '' );
             update_post_meta( $product_id, 'notify_product_lead', '' );
             update_post_meta( $product_id, 'notify_product_lead_count', 0 );
@@ -370,6 +359,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
             }
 
             $notify_product      = get_post_meta( $product_id, 'notify_product', true );
+            $enable_notification = get_post_meta( $product_id, 'enable_notification', true );
 
             ob_start();
 
@@ -378,19 +368,20 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
                     <?php
                     echo '<input type="hidden" name="_nonce" value="' . esc_attr( wp_create_nonce( 'woo_auto_release' ) ) . '">';
                     $enable_show_total_votes = get_post_meta( $product_id, 'enable_show_total_votes', true );
+                    if( ! empty( $enable_notification ) && 'yes' === $enable_notification ){
                     ?>
-                    <div class="voting-options-main-wrapper" id="voting_options_main_wrapper" >
-                        <div class='voting-option-wrapper' id="voting_option_wrapper" >
-                            <a href="javascript:void(0);" class="notify-product-button button" data-product-id="<?php echo esc_attr( $product_id ); ?>" data-action="upvote" id="notify_product_voting_button"><?php echo apply_filters("upvote_button_label_html","<i class='far fa-thumbs-up'></i>"); ?></a>
-                            <?php
-                            if ( ! empty( $enable_show_total_votes ) && 'yes' === esc_attr( $enable_show_total_votes ) ) {
-                                $notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
-                                ?>
-                                <span class="total-voting-numbers"><?php echo sprintf( _n( '<strong>%s</strong> Vote', '<strong>%s</strong> Votes', $notify_product_lead_count, 'text-domain' ), number_format_i18n( $notify_product_lead_count ) ); ?> </span>
-                            <?php } ?>
+                        <div class="voting-options-main-wrapper" id="voting_options_main_wrapper" >
+                            <div class='voting-option-wrapper' id="voting_option_wrapper" >
+                                <a href="javascript:void(0);" class="notify-product-button button" data-product-id="<?php echo esc_attr( $product_id ); ?>" data-action="upvote" id="notify_product_voting_button"><?php echo apply_filters("upvote_button_label_html","<i class='far fa-thumbs-up'></i>"); ?></a>
+                                <?php
+                                if ( ! empty( $enable_show_total_votes ) && 'yes' === esc_attr( $enable_show_total_votes ) ) {
+                                    $notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
+                                    ?>
+                                    <span class="total-voting-numbers"><?php echo sprintf( _n( '<strong>%s</strong> Vote', '<strong>%s</strong> Votes', $notify_product_lead_count, 'text-domain' ), number_format_i18n( $notify_product_lead_count ) ); ?> </span>
+                                <?php } ?>
+                            </div>
                         </div>
-                    </div>
-                <?php
+                    <?php }
                     $enable_auto_release = get_post_meta( $product_id, 'enable_auto_release', true );
                     $auto_release_date   = get_post_meta( $product_id, 'auto_release_date', true );
                     if ( ! empty( $enable_auto_release ) && ! empty( $auto_release_date ) && strtotime( $auto_release_date ) > strtotime( 'now' ) ) { ?>
