@@ -23,8 +23,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
 		 */
 		public function __construct() {
 
-			add_action( 'wpar_section_content_general', array( $this, 'general_settings' ) );
-			add_action( 'wpar_section_content_uninstall', array( $this, 'uninstall_settings' ) );
+			add_action( 'wpar_lite_section_content_general', array( $this, 'general_settings' ) );
+            add_action( 'wpar_lite_section_content_voted_lists', array( $this, 'voted_lists_settings' ) );
+			add_action( 'wpar_lite_section_content_uninstall', array( $this, 'uninstall_settings' ) );
 		}
 
 		/**
@@ -68,6 +69,66 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
 			<?php
 			do_action( 'wpar_after_general_settings_content' );
 		}
+
+        /**
+         * Add voted lists settings.
+         *
+         * @since 1.0.0
+         */
+        public function voted_lists_settings() {
+
+            do_action( 'wpar_before_voted_lists_settings_content' );
+
+            $selected_id = ! empty( $_GET['product_id'] ) ? esc_attr( $_GET['product_id'] ) : '';
+
+            ?>
+            <div class="wc-product-voted-lists-filter">
+                <form method="get" id="wpar_form_main" action="" enctype="multipart/form-data">
+                    <input type="hidden" name="page" value="woocommerce-product-auto-release">
+                    <input type="hidden" name="tab" value="voted_lists">
+                    <label>
+                        <select name="product_id" id="product_id">
+                            <option value=""><?php _e( 'Select product', 'woocommerce-product-auto-release-lite' ); ?></option>
+                            <?php
+                            $product_args = array(
+                                'post_type'   => array( 'product', 'product_variation' ),
+                                'post_status' => array( 'pending', 'draft', 'future', 'trash', 'publish' ),
+                                'meta_query'  => array(
+                                    'relation' => 'OR',
+                                    array(
+                                        'key'     => 'notify_product_voted_ip',
+                                        'compare' => 'EXISTS',
+                                    ),
+                                ),
+                            );
+
+                            $voted_query = new WP_Query( $product_args );
+                            if ( $voted_query->have_posts() ) {
+                                while ( $voted_query->have_posts() ) {
+                                    $voted_query->the_post();
+                                    ?>
+                                    <option <?php selected( $selected_id, get_the_ID() ); ?> value="<?php echo get_the_ID(); ?>"><?php echo get_the_title(); ?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                        <input class="button button-primary" type="submit" name="submit" value="<?php _e( 'Search', 'woocommerce-product-auto-release-lite' ); ?>" />
+                    </label>
+                </form>
+            </div>
+            <div class="voted-list-table-wrap">
+                <?php
+                $voted_table = new Voted_List_Table();
+                $voted_table->prepare_items();
+                $voted_table->display();
+                ?>
+            </div>
+            <?php
+
+            do_action( 'wpar_after_voted_lists_settings_content' );
+
+        }
 
 		/**
 		 * Add uninstall settings.

@@ -34,7 +34,7 @@ if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL' ) ) {
 
 // Define plugin menu Slug.
 if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'woocommerce-product-auto-release-lite' );
+	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'woocommerce-product-auto-release' );
 }
 
 /**
@@ -93,8 +93,8 @@ register_activation_hook( __FILE__, 'activate_wc_product_auto_release_lite' );
  * @since 1.0.0
  */
 function activate_wc_product_auto_release_lite() {
-    require_once 'includes/activator.php';
-    WC_PRODUCT_AUTO_RELEASE_LITE_Activator::activate();
+	require_once 'includes/activator.php';
+	WC_PRODUCT_AUTO_RELEASE_LITE_Activator::activate();
 }
 
 /**
@@ -103,16 +103,22 @@ function activate_wc_product_auto_release_lite() {
  *
  * @since 1.0.0
  */
-require_once 'includes/class-woocommerce-product-auto-release-lite.php';
 
-/**
- * Begins execution of the plugin.
- *
- * @since 1.0.0
- */
-add_action(
-    'plugins_loaded',
-    function () {
-        Woo_Product_Auto_Release_Lite::get_instance();
-    }
-);
+$active_plugins = (array) get_option( 'active_plugins', array() );
+
+if ( empty( $active_plugins ) || ! in_array( 'woocommerce-product-auto-release/woocommerce-product-auto-release.php', $active_plugins, true ) ) {
+
+	require_once 'includes/class-woocommerce-product-auto-release-lite.php';
+
+	/**
+	 * Begins execution of the plugin.
+	 *
+	 * @since 1.0.0
+	 */
+	add_action(
+		'plugins_loaded',
+		function () {
+			Woo_Product_Auto_Release_Lite::get_instance();
+		}
+	);
+}
