@@ -34,7 +34,7 @@ if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL' ) ) {
 
 // Define plugin menu Slug.
 if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'woo-product-auto-release-lite' );
+	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'woocommerce-product-auto-release-lite' );
 }
 
 /**

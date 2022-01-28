@@ -339,7 +339,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
                             if ( ! empty( $enable_show_total_votes ) && 'yes' === esc_attr( $enable_show_total_votes ) ) {
                                 $notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
                                 ?>
-                                <span class="total-voting-numbers"><?php echo ! empty( $notify_product_lead_count ) ? esc_attr( $notify_product_lead_count ) : ''; ?> </span>
+<                                <span class="total-voting-numbers"><?php echo ! empty( $notify_product_lead_count ) ? esc_attr( $notify_product_lead_count ) : ''; ?> </span>
                             <?php } ?>
                         </div>
                     </div>
