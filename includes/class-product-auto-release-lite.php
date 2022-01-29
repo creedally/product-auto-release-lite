@@ -386,7 +386,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 					}
 					$enable_auto_release = get_post_meta( $product_id, 'enable_auto_release', true );
 					$auto_release_date   = get_post_meta( $product_id, 'auto_release_date', true );
-					if ( ! empty( $enable_auto_release ) && ! empty( $auto_release_date ) && strtotime( $auto_release_date ) > strtotime( 'now' ) ) {
+					if ( ! empty( $enable_auto_release ) && ! empty( $auto_release_date ) ) {
 						?>
 						<div class="timer-main-wrapper" id="timer_main_wrapper">
 							<div id="wpar_timer" class="wpar-timer" data-available-time="<?php echo esc_attr( $auto_release_date ); ?>"></div>
