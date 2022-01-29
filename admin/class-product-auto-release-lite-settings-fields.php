@@ -45,23 +45,23 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
 			<table class="wpar-option-table form-table">
 				<tbody>
                     <tr>
-                        <th><?php esc_attr_e( 'Select button label type', 'woocommerce-product-auto-release-lite' ); ?></th>
+                        <th><?php esc_attr_e( 'Select button label type', 'product-auto-release-lite' ); ?></th>
                         <td>
-                            <label for="both"><input type="radio" name="upvote_button" <?php checked($upvote_button,'both'); ?> id="both" value='both' > <?php _e('Both', 'woocommerce-product-auto-release-lite'); ?></label>
-                            <label for="icon"><input type="radio" name="upvote_button" <?php checked($upvote_button,'icon'); ?> id="icon" value='icon' > <?php _e('Icon', 'woocommerce-product-auto-release-lite'); ?> </label>
-                            <label for="text"><input type="radio" name="upvote_button" <?php checked($upvote_button,'text'); ?> id="text" value='text' > <?php _e('Text', 'woocommerce-product-auto-release-lite'); ?> </label>
+                            <label for="both"><input type="radio" name="upvote_button" <?php checked($upvote_button,'both'); ?> id="both" value='both' > <?php _e('Both', 'product-auto-release-lite'); ?></label>
+                            <label for="icon"><input type="radio" name="upvote_button" <?php checked($upvote_button,'icon'); ?> id="icon" value='icon' > <?php _e('Icon', 'product-auto-release-lite'); ?> </label>
+                            <label for="text"><input type="radio" name="upvote_button" <?php checked($upvote_button,'text'); ?> id="text" value='text' > <?php _e('Text', 'product-auto-release-lite'); ?> </label>
                         </td>
                     </tr>
                     <tr>
-                        <th><?php esc_attr_e( 'Button Icon', 'woocommerce-product-auto-release-lite' ); ?></th>
+                        <th><?php esc_attr_e( 'Button Icon', 'product-auto-release-lite' ); ?></th>
                         <td>
-                            <input type="text" placeholder="<?php _e( 'far fa-thumbs-up', 'woocommerce-product-auto-release-lite' ); ?>" name="upvote_button_icon" class="regular-text upvote-button-icon" value="<?php esc_attr_e( $upvote_button_icon, 'woocommerce-product-auto-release-lite' ); ?>" >
+                            <input type="text" placeholder="<?php _e( 'far fa-thumbs-up', 'product-auto-release-lite' ); ?>" name="upvote_button_icon" class="regular-text upvote-button-icon" value="<?php esc_attr_e( $upvote_button_icon, 'product-auto-release-lite' ); ?>" >
                         </td>
                     </tr>
 					<tr>
-						<th><?php esc_attr_e( 'Button Text', 'woocommerce-product-auto-release-lite' ); ?></th>
+						<th><?php esc_attr_e( 'Button Text', 'product-auto-release-lite' ); ?></th>
 						<td>
-							<input type="text" placeholder="<?php _e( 'Add vote', 'woocommerce-product-auto-release-lite' ); ?>" name="upvote_button_label" class="regular-text" value="<?php esc_attr_e( $upvote_button_label, 'woocommerce-product-auto-release-lite' ); ?>" >
+							<input type="text" placeholder="<?php _e( 'Add vote', 'product-auto-release-lite' ); ?>" name="upvote_button_label" class="regular-text" value="<?php esc_attr_e( $upvote_button_label, 'product-auto-release-lite' ); ?>" >
 						</td>
 					</tr>
 				</tbody>
@@ -84,11 +84,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
             ?>
             <div class="wc-product-voted-lists-filter">
                 <form method="get" id="wpar_form_main" action="" enctype="multipart/form-data">
-                    <input type="hidden" name="page" value="woocommerce-product-auto-release">
+                    <input type="hidden" name="page" value="product-auto-release">
                     <input type="hidden" name="tab" value="voted_lists">
                     <label>
                         <select name="product_id" id="product_id">
-                            <option value=""><?php _e( 'Select product', 'woocommerce-product-auto-release-lite' ); ?></option>
+                            <option value=""><?php _e( 'Select product', 'product-auto-release-lite' ); ?></option>
                             <?php
                             $product_args = array(
                                 'post_type'   => array( 'product', 'product_variation' ),
@@ -113,7 +113,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
                             }
                             ?>
                         </select>
-                        <input class="button button-primary" type="submit" name="submit" value="<?php _e( 'Search', 'woocommerce-product-auto-release-lite' ); ?>" />
+                        <input class="button button-primary" type="submit" name="submit" value="<?php _e( 'Search', 'product-auto-release-lite' ); ?>" />
                     </label>
                 </form>
             </div>
@@ -145,11 +145,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
 			<table class="wpar-option-table form-table">
 				<tbody>
 					<tr>
-						<th><label for="wpar_uninstall"><?php esc_attr_e( 'Remove data on uninstall?', 'woocommerce-product-auto-release-lite' ); ?></label></th>
+						<th><label for="wpar_uninstall"><?php esc_attr_e( 'Remove data on uninstall?', 'product-auto-release-lite' ); ?></label></th>
 						<td>
 							<label>
 								<input type="checkbox" <?php checked( $remove_settings, '1' ); ?> name="remove_settings" id="remove_settings" class="regular-text" value="1">
-								<?php esc_attr_e( 'Check this box if you would like to remove all of data when the plugin is deleted.', 'woocommerce-product-auto-release-lite' ); ?>
+								<?php esc_attr_e( 'Check this box if you would like to remove all of data when the plugin is deleted.', 'product-auto-release-lite' ); ?>
 							</label>
 						</td>
 					</tr>

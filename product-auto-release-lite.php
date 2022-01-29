@@ -1,7 +1,7 @@
 <?php
 /**
-* Plugin Name:   WooCommerce Product Auto Release Lite
-* Plugin URI:    https://creedally.com/
+* Plugin Name:   Product Auto Release with Upvote & Countdown
+* Plugin URI:    https://store.creedally.com/product/woocommerce-product-auto-release/
 * Description:   Auto release your products with a upvote rules of your convenience to attract more users, drive the more initial sale of your products.
 * Version:       1.0.0
 * Author:        CreedAlly
@@ -9,7 +9,7 @@
 * License:       GPL-2.0+
 * License URI:   http://www.gnu.org/licenses/gpl-2.0.txt
 * ProductID:     233
-* Text Domain:   woocommerce-product-auto-release-lite
+* Text Domain:   product-auto-release-lite
 * Domain Path:  /languages
 */
 
@@ -34,7 +34,7 @@ if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL' ) ) {
 
 // Define plugin menu Slug.
 if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'woocommerce-product-auto-release' );
+	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'product-auto-release' );
 }
 
 /**
@@ -80,7 +80,7 @@ if ( is_admin() ) {
 			'admin_notices',
 			function() {
 				/* translators: %1$s: Product Title, %2$s: product link tag start, %3$s: product link tag end */
-				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'woocommerce-product-auto-release-lite' ), ' WC Product Inquiry Lite', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
+				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'product-auto-release-lite' ), ' WC Product Inquiry Lite', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
 			}
 		);
 	}
@@ -106,9 +106,9 @@ function activate_wc_product_auto_release_lite() {
 
 $active_plugins = (array) get_option( 'active_plugins', array() );
 
-if ( empty( $active_plugins ) || ! in_array( 'woocommerce-product-auto-release/woocommerce-product-auto-release.php', $active_plugins, true ) ) {
+if ( empty( $active_plugins ) || ! in_array( 'product-auto-release/product-auto-release.php', $active_plugins, true ) ) {
 
-	require_once 'includes/class-woocommerce-product-auto-release-lite.php';
+	require_once 'includes/class-product-auto-release-lite.php';
 
 	/**
 	 * Begins execution of the plugin.

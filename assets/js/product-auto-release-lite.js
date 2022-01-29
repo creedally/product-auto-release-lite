@@ -15,7 +15,7 @@ jQuery( document ).ready(
 					'_nonce': nonce,
 				};
 				jQuery.post(
-					woocommerce_product_auto_release_object.ajax_url,
+					product_auto_release_object.ajax_url,
 					data,
 					function (response) {
 						if (response.status) {
@@ -94,7 +94,7 @@ function wp_auto_release_timer() {
 				}
 			}
 		} else {
-			jQuery( '.wpar-timer' ).html( '' ).html( '<div>' + d + '<span>' + woocommerce_product_auto_release_object.days + '</span></div>' + '<div>' + h + '<span>' + woocommerce_product_auto_release_object.hours + '</span></div>' + '<div>' + m + '<span>' + woocommerce_product_auto_release_object.minutes + '</span></div>' + '<div>' + s + '<span>' + woocommerce_product_auto_release_object.seconds + '</span></div>' );
+			jQuery( '.wpar-timer' ).html( '' ).html( '<div>' + d + '<span>' + product_auto_release_object.days + '</span></div>' + '<div>' + h + '<span>' + product_auto_release_object.hours + '</span></div>' + '<div>' + m + '<span>' + product_auto_release_object.minutes + '</span></div>' + '<div>' + s + '<span>' + product_auto_release_object.seconds + '</span></div>' );
 		}
 	}
 }
@@ -109,7 +109,7 @@ function product_available(){
 		'_nonce': nonce,
 	};
 	jQuery.post(
-		woocommerce_product_auto_release_object.ajax_url,
+		product_auto_release_object.ajax_url,
 		data,
 		function(response) {
 			if (response.status) {

@@ -80,8 +80,8 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 			//Create plugin menu
 			add_submenu_page(
 				'options-general.php',
-				__( 'WooCommerce Product Auto Release', 'woocommerce-product-auto-release-lite' ),
-				__( 'WooCommerce Product Auto Release', 'woocommerce-product-auto-release-lite' ),
+				__( 'Product Auto Release', 'product-auto-release-lite' ),
+				__( 'Product Auto Release', 'product-auto-release-lite' ),
 				'administrator',
 				$this->menu_slug,
 				array( $this, 'woo_product_auto_release_lite_settings_page' ),
@@ -128,9 +128,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 			return apply_filters(
 				'wp_auto_release_menu_items',
 				array(
-					''              => __( 'Auto Release', 'woocommerce-product-auto-release-lite' ),
-                    'voted_lists'   => __( 'Voted lists', 'woocommerce-product-auto-release-lite' ),
-					'uninstall'     => __( 'Uninstall', 'woocommerce-product-auto-release-lite' ),
+					''              => __( 'Auto Release', 'product-auto-release-lite' ),
+                    'voted_lists'   => __( 'Voted lists', 'product-auto-release-lite' ),
+					'uninstall'     => __( 'Uninstall', 'product-auto-release-lite' ),
 				)
 			);
 		}
@@ -165,7 +165,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 					?>
 					<a href="<?php echo esc_attr( $menu_link ); ?>" class="wpar-nav-tab nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_attr( $menu ); ?></a>
 				<?php } ?>
-				<a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><img src="<?php echo WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . '/assets/images/icon-upgrade-pro.svg'; ?>"><p><?php _e( 'Upgrade to Pro', 'woocommerce-product-auto-release-lite' ); ?></p></a>
+				<a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><img src="<?php echo WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . '/assets/images/icon-upgrade-pro.svg'; ?>"><p><?php _e( 'Upgrade to Pro', 'product-auto-release-lite' ); ?></p></a>
 			</nav>
 			<?php
 		}
@@ -178,7 +178,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		public function heading_title() {
 			$menu_items      = $this->menu_items();
 			$current_section = $this->current_section();
-			$heading_title   = ! empty( $menu_items[ $current_section ] ) ? esc_attr( $menu_items[ $current_section ] ) . ' ' . __( 'settings', 'woocommerce-product-auto-release-lite' ) : '';
+			$heading_title   = ! empty( $menu_items[ $current_section ] ) ? esc_attr( $menu_items[ $current_section ] ) . ' ' . __( 'settings', 'product-auto-release-lite' ) : '';
 			?>
 			<h1 class="wp-heading-inline"><?php echo esc_attr( apply_filters( 'wp_auto_release_heading_title', $heading_title ) ); ?></h1>
 			<?php
@@ -249,7 +249,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							</div>
 							<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
 								<p class="submit <?php echo ! empty( $section ) ? esc_attr( $section ) : ''; ?> ">
-									<button name="save" class="button-primary" type="submit" value="submit"><?php esc_attr_e( 'Save changes', 'woocommerce-product-auto-release-lite' ); ?></button>
+									<button name="save" class="button-primary" type="submit" value="submit"><?php esc_attr_e( 'Save changes', 'product-auto-release-lite' ); ?></button>
 									<input type="hidden" name="action" value="wpar_form_action">
 									<input type="hidden" name="_nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpar_form_main' ) ); ?>">
 									<input type="hidden" name="current_page" value="<?php echo esc_attr( $current_page ); ?>">
@@ -336,11 +336,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 */
 		public function enqueue_admin_scripts() {
 
-			wp_enqueue_style( 'woocommerce-product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/jquery.datetimepicker.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_style( 'product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/jquery.datetimepicker.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
 			wp_enqueue_style( 'font-awesome-style', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_style( 'woocommerce-product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/admin-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_script( 'woocommerce-product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/jquery.datetimepicker.full.min.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
-			wp_enqueue_script( 'woocommerce-product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/woocommerce-product-auto-release-lite-admin.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+			wp_enqueue_style( 'product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/admin-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_script( 'product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/jquery.datetimepicker.full.min.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+			wp_enqueue_script( 'product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/product-auto-release-lite-admin.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
 		}
 
 		/**
@@ -357,9 +357,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						array(
 							'id'          => 'notify_product',
 							'class'       => 'wc-notify-checkbox checkbox',
-							'label'       => __( 'Enable Product Auto Release?', 'woocommerce-product-auto-release-lite' ),
+							'label'       => __( 'Enable Product Auto Release?', 'product-auto-release-lite' ),
 							'desc_tip'    => true,
-							'description' => __( 'Enable this option to start product auto release procedure.', 'woocommerce-product-auto-release-lite' ),
+							'description' => __( 'Enable this option to start product auto release procedure.', 'product-auto-release-lite' ),
 						)
 					);
 
@@ -368,9 +368,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							'id'            => 'enable_notification',
 							'class'         => 'wc-enable-notification-checkbox checkbox',
 							'wrapper_class' => 'wc-enable-notification wc-notify-general-field',
-							'label'         => __( 'Enable Product Release Settings?', 'woocommerce-product-auto-release-lite' ),
+							'label'         => __( 'Enable Product Release Settings?', 'product-auto-release-lite' ),
 							'desc_tip'      => true,
-							'description'   => __( 'Enable this option to add product release setting.', 'woocommerce-product-auto-release-lite' ),
+							'description'   => __( 'Enable this option to add product release setting.', 'product-auto-release-lite' ),
 						)
 					);
 
@@ -379,11 +379,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							'id'            => 'notification_type',
 							'class'         => 'wc-notification-type-checkbox checkbox ',
 							'wrapper_class' => 'wc-notify-fields wc-notify-general-field',
-							'label'         => __( 'Product Auto Release Type', 'woocommerce-product-auto-release-lite' ),
+							'label'         => __( 'Product Auto Release Type', 'product-auto-release-lite' ),
 							'desc_tip'      => true,
 							'value'         => 'voting',
 							'options'       => array(
-								'voting' => __( 'UP Vote', 'woocommerce' ),
+								'voting' => __( 'UP Vote', 'product-auto-release-lite' ),
 							),
 						)
 					);
@@ -393,9 +393,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							'id'            => 'enable_show_total_votes',
 							'class'         => 'wc-enable-show-total-votes checkbox',
 							'wrapper_class' => 'notify_product_lead_field  wc-notify-fields wc-notify-general-field',
-							'label'         => __( 'Show Total Votes on Product Page?', 'woocommerce-product-auto-release-lite' ),
+							'label'         => __( 'Show Total Votes on Product Page?', 'product-auto-release-lite' ),
 							'desc_tip'      => true,
-							'description'   => __( 'Enable this option display total votes on product page.', 'woocommerce-product-auto-release-lite' ),
+							'description'   => __( 'Enable this option display total votes on product page.', 'product-auto-release-lite' ),
 						)
 					);
 
@@ -403,7 +403,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						array(
 							'type'              => 'number',
 							'id'                => 'notify_product_lead',
-							'label'             => __( "Customer's Targeted Number", 'woocommerce-product-auto-release-lite' ),
+							'label'             => __( "Customer's Targeted Number", 'product-auto-release-lite' ),
 							'wrapper_class'     => 'notify_product_lead_field wc-notify-fields wc-notify-general-field',
 							'desc_tip'          => true,
 							'custom_attributes' => array(
@@ -419,9 +419,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 							'id'            => 'enable_auto_release',
 							'class'         => 'enable-email-auto-release-checkbox checkbox ',
 							'wrapper_class' => 'wc-auto-release wc-notify-general-field',
-							'label'         => __( 'Enable Countdown Timer?', 'woocommerce-product-auto-release-lite' ),
+							'label'         => __( 'Enable Countdown Timer?', 'product-auto-release-lite' ),
 							'desc_tip'      => true,
-							'description'   => __( 'Enable this option to set countdown timer for product release.', 'woocommerce-product-auto-release-lite' ),
+							'description'   => __( 'Enable this option to set countdown timer for product release.', 'product-auto-release-lite' ),
 						)
 					);
 
@@ -429,7 +429,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						array(
 							'type'              => 'text',
 							'id'                => 'auto_release_date',
-							'label'             => __( 'Product Auto Release Date&Time', 'woocommerce-product-auto-release-lite' ),
+							'label'             => __( 'Product Auto Release Date&Time', 'product-auto-release-lite' ),
 							'wrapper_class'     => 'wc-auto-release-fields release-date-picker wc-notify-general-field',
 							'desc_tip'          => true,
 							'placeholder'       => date( 'Y-m-d H:s' ),

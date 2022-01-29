@@ -1,4 +1,4 @@
-=== WooCommerce Product Auto Release Lite ===
+=== Product Auto Release with Upvote & Countdown ===
 Contributors: creedally, dhavalparejia, priyank9033
 Tags: Product, Release, WooCommerce, countdown, upvote
 Requires at least: 4.7

@@ -29,9 +29,11 @@ if ( ! function_exists( 'check_notify_product' ) ) {
 		$notify_product                = get_post_meta( $product_id, 'notify_product', true );
 		$notify_product_lead           = get_post_meta( $product_id, 'notify_product_lead', true );
 		$notify_product_lead_generated = get_post_meta( $product_id, 'notify_product_lead_generated', true );
+		$is_product_counter = get_post_meta( $product_id, 'enable_auto_release', true );
+		$product_counter_time = get_post_meta( $product_id, 'auto_release_date', true );
 
 		$is_notify = false;
-		if ( ! empty( $notify_product ) && ! empty( $notify_product_lead ) && ( empty( $notify_product_lead_generated ) || $notify_product_lead_generated < $notify_product_lead ) ) {
+		if ( ! empty( $notify_product ) && ( ( ! empty( $notify_product_lead ) && ( empty( $notify_product_lead_generated ) || $notify_product_lead_generated < $notify_product_lead ) ) || ( !empty( $is_product_counter ) && !empty( $product_counter_time ) ) ) ) {
 			$is_notify = true;
 		}
 
@@ -62,12 +64,12 @@ if ( ! function_exists( 'get_wpar_message' ) ) {
 		}
 
 		$messages = array(
-			'something_went_wrong'        => __( 'Something went wrong, please try after some time.', 'woocommerce-product-auto-release-lite' ),
-			'setting_saved'               => __( 'Your settings has been saved.', 'woocommerce-product-auto-release-lite' ),
-			'nonce_not_verified'          => __( 'Nonce not verified.', 'woocommerce-product-auto-release-lite' ),
-			'product_is_available'        => __( 'Product is available now.', 'woocommerce-product-auto-release-lite' ),
-			'notification_vote_submitted' => __( 'Thank you for voting for this product release, we will release it soon.', 'woocommerce-product-auto-release-lite' ),
-			'notification_vote_exists'    => __( 'You have already voted for this product.', 'woocommerce-product-auto-release-lite' ),
+			'something_went_wrong'        => __( 'Something went wrong, please try after some time.', 'product-auto-release-lite' ),
+			'setting_saved'               => __( 'Your settings has been saved.', 'product-auto-release-lite' ),
+			'nonce_not_verified'          => __( 'Nonce not verified.', 'product-auto-release-lite' ),
+			'product_is_available'        => __( 'Product is available now.', 'product-auto-release-lite' ),
+			'notification_vote_submitted' => __( 'Thank you for voting for this product release, we will release it soon.', 'product-auto-release-lite' ),
+			'notification_vote_exists'    => __( 'You have already voted for this product.', 'product-auto-release-lite' ),
 		);
 
 		$global_messages = apply_filters( 'wp_auto_release_global_messages', $messages );

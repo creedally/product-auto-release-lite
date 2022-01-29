@@ -63,9 +63,9 @@ if( ! class_exists('Voted_List_Table') ) {
         {
 
             return array(
-                'product_title' => esc_html__('Product Title', 'woocommerce-product-auto-release-lite'),
-                'ip_address' => esc_html__('IP Address', 'woocommerce-product-auto-release-lite'),
-                'vote' => esc_html__('Vote', 'woocommerce-product-auto-release-lite'),
+                'product_title' => esc_html__('Product Title', 'product-auto-release-lite'),
+                'ip_address' => esc_html__('IP Address', 'product-auto-release-lite'),
+                'vote' => esc_html__('Vote', 'product-auto-release-lite'),
             );
         }
 
