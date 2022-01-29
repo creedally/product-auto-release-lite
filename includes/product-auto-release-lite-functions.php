@@ -29,11 +29,11 @@ if ( ! function_exists( 'check_notify_product' ) ) {
 		$notify_product                = get_post_meta( $product_id, 'notify_product', true );
 		$notify_product_lead           = get_post_meta( $product_id, 'notify_product_lead', true );
 		$notify_product_lead_generated = get_post_meta( $product_id, 'notify_product_lead_generated', true );
-		$is_product_counter = get_post_meta( $product_id, 'enable_auto_release', true );
-		$product_counter_time = get_post_meta( $product_id, 'auto_release_date', true );
+		$is_product_counter            = get_post_meta( $product_id, 'enable_auto_release', true );
+		$product_counter_time          = get_post_meta( $product_id, 'auto_release_date', true );
 
 		$is_notify = false;
-		if ( ! empty( $notify_product ) && ( ( ! empty( $notify_product_lead ) && ( empty( $notify_product_lead_generated ) || $notify_product_lead_generated < $notify_product_lead ) ) || ( !empty( $is_product_counter ) && !empty( $product_counter_time ) ) ) ) {
+		if ( ! empty( $notify_product ) && ( ( ! empty( $notify_product_lead ) && ( empty( $notify_product_lead_generated ) || $notify_product_lead_generated < $notify_product_lead ) ) || ( ! empty( $is_product_counter ) && ! empty( $product_counter_time ) ) ) ) {
 			$is_notify = true;
 		}
 

@@ -23,7 +23,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 *
 		 * @since    1.0.0
 		 */
-		public $menu_slug = WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG;
+		public $menu_slug = PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG;
 
 		/**
 		 * The errors of this plugin.
@@ -165,7 +165,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 					?>
 					<a href="<?php echo esc_attr( $menu_link ); ?>" class="wpar-nav-tab nav-tab <?php echo esc_attr( $active ); ?>"><?php echo esc_attr( $menu ); ?></a>
 				<?php } ?>
-				<a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><img src="<?php echo WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . '/assets/images/icon-upgrade-pro.svg'; ?>"><p><?php _e( 'Upgrade to Pro', 'product-auto-release-lite' ); ?></p></a>
+				<a href="https://store.creedally.com/product/woocommerce-product-auto-release/" target="_blank" rel="nofollow" class="wpar-nav-button product-url"><img src="<?php echo PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . '/assets/images/icon-upgrade-pro.svg'; ?>"><p><?php _e( 'Upgrade to Pro', 'product-auto-release-lite' ); ?></p></a>
 			</nav>
 			<?php
 		}
@@ -336,11 +336,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 */
 		public function enqueue_admin_scripts() {
 
-			wp_enqueue_style( 'product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/jquery.datetimepicker.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_style( 'font-awesome-style', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_style( 'product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/admin-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_script( 'product-auto-release-lite-datepicker', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/jquery.datetimepicker.full.min.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
-			wp_enqueue_script( 'product-auto-release-lite-admin', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/product-auto-release-lite-admin.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+			wp_enqueue_style( 'product-auto-release-lite-datepicker', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/jquery.datetimepicker.min.css', array(), PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_style( 'font-awesome-style', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_style( 'product-auto-release-lite-admin', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/admin-style.css', array(), PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_script( 'product-auto-release-lite-datepicker', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/jquery.datetimepicker.full.min.js', array( 'jquery' ), PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+			wp_enqueue_script( 'product-auto-release-lite-admin', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/product-auto-release-lite-admin.js', array( 'jquery' ), PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
 		}
 
 		/**

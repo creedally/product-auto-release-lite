@@ -1,6 +1,6 @@
 === Product Auto Release with Upvote & Countdown ===
 Contributors: creedally, dhavalparejia, priyank9033
-Tags: Product, Release, WooCommerce, countdown, upvote
+Tags: Product, Release, WooCommerce, Countdown, Vote
 Requires at least: 4.7
 Tested up to: 5.9
 Requires PHP: 5.6
