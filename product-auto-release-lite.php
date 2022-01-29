@@ -1,7 +1,7 @@
 <?php
 /**
 * Plugin Name:   Product Auto Release with Upvote & Countdown
-* Plugin URI:    https://creedally.com/
+* Plugin URI:    https://store.creedally.com/product/woocommerce-product-auto-release/
 * Description:   Auto release your products with a upvote rules of your convenience to attract more users, drive the more initial sale of your products.
 * Version:       1.0.0
 * Author:        CreedAlly
