@@ -77,7 +77,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'template_redirect', array( $this, 'add_product_notify_button' ) );
-			add_action( 'woocommerce_before_shop_loop_item', array( $this, 'add_product_notify_button' ) );
+			add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'woocommerce_loop_add_to_cart_args_cb' ), 10, 2 );
 			add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'woocommerce_blocks_product_grid_item_html_cb' ), 9999, 3 );
 			add_filter( 'upvote_button_label_html', array( $this, 'upvote_button_label_html_cb' ) );
 			add_filter( 'woocommerce_email_classes', array( $this, 'woocommerce_email_classes_cb' ) );
@@ -121,12 +121,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 		public function add_product_notify_button() {
 
 			/* Remove add to cart button from the autorelease product */
-
-			$loop = false;
-			if ( 'woocommerce_before_shop_loop_item' === current_filter() ) { /* Check loop product or not */
-				$loop = true;
-			}
-			if ( $loop || 'product' === get_post_type() ) {
+			if ( is_single() && 'product' === get_post_type() ) {
 				global $product;
 
 				if ( is_single() && current_filter() === 'template_redirect' ) { /* Check current filter is template redirect or not */
@@ -139,22 +134,40 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 
 				$notify_product = check_notify_product( $product_id ); /* Check product is notify product or not */
 
-				if ( $notify_product ) {
-
-					$this->remove_add_to_cart_button( $product_id, $product_type, $loop );
-
-					if ( ! $loop ) {
-						add_action( 'woocommerce_simple_add_to_cart', array( $this, 'add_notify_button' ), 30 );
-					} else {
-						add_action( 'woocommerce_after_shop_loop_item', array( $this, 'add_view_more_button' ), 20 );
-					}
-				} else {
-					add_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
-					add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart' );
-					remove_action( 'woocommerce_after_shop_loop_item', array( $this, 'add_view_more_button' ), 20 );
-				}
+                if ( $notify_product ) {
+                    $this->remove_add_to_cart_button( $product_id, $product_type);
+                    add_action( 'woocommerce_simple_add_to_cart', array( $this, 'add_notify_button' ), 30 );
+                } else {
+                    add_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
+                }
 			}
 		}
+
+        public function woocommerce_loop_add_to_cart_args_cb($args, $product){
+
+            $product_id = $product->get_id();
+            $product_type = $product->get_type();
+            $notify_product = false;
+            $product_url = $product->add_to_cart_url();
+            $product_label = $product->add_to_cart_text();
+            $notify_product = check_notify_product($product_id);
+
+            if( $notify_product && 'simple' === $product_type){
+                $product_url = get_the_permalink($product_id);
+                $product_label = __('View product', 'product-auto-release-lite');
+            }
+
+            $html = sprintf(
+                '<a href="%s" data-quantity="%s" class="%s" %s>%s</a>',
+                esc_url( $product_url ),
+                esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
+                esc_attr( isset( $args['class'] ) ? $args['class'] : 'button' ),
+                isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
+                esc_html( $product_label )
+            );
+
+            return $html;
+        }
 
 		/**
 		 * Replace loop Add to cart button via visit product.
@@ -318,23 +331,20 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			wpar_lite_notify_users( $product_id );
 		}
 
-		/**
-		 * Remove add to cart button
-		 *
-		 * @param int $product_id
-		 * @param string $product_type
-		 * @param false $loop
-		 *
-		 * @since 1.0.0
-		 */
-		public function remove_add_to_cart_button( int $product_id = 0, string $product_type = '', bool $loop = false ) {
+        /**
+         * Remove add to cart button
+         *
+         * @param int $product_id
+         * @param string $product_type
+         *
+         * @since 1.0.0
+         */
+		public function remove_add_to_cart_button( int $product_id = 0, string $product_type = '' ) {
 			if ( empty( $product_id ) || empty( $product_type ) || $product_id < 1 ) {
 				return;
 			}
-			if ( 'simple' === $product_type && ! $loop ) {
+			if ( 'simple' === $product_type ) {
 				remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
-			} else {
-				remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart' );
 			}
 		}
 
@@ -397,27 +407,6 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			}
 
 			return  ob_get_clean();
-		}
-
-		/**
-		 * Add View product button
-		 *
-		 * @since 1.0.0
-		 */
-		public function add_view_more_button() {
-
-			global $product;
-
-			if ( 'woocommerce_after_shop_loop_item' === current_filter() && ! empty( $product ) ) { /* Check loop product or not */
-				$product_id = $product->get_id();
-			}
-
-			if ( empty( $product_id ) || $product_id < 1 ) {
-				return;
-			}
-			?>
-			<a href='<?php echo esc_url( get_permalink( $product_id ) ); ?>' rel='nofollow' class='button product_type_simple'> <?php esc_attr_e( 'View product', 'product-auto-release-lite' ); ?> </a>
-			<?php
 		}
 
 		public function wc_email_format_string( $string, $wc_email ) {
