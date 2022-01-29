@@ -18,23 +18,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin Version.
-if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION', '1.0.0' );
+if ( ! defined( 'PRODUCT_AUTO_RELEASE_LITE_VERSION' ) ) {
+	define( 'PRODUCT_AUTO_RELEASE_LITE_VERSION', '1.0.0' );
 }
 
 // Define plugin Path.
-if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PATH' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PATH', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'PRODUCT_AUTO_RELEASE_LITE_PATH' ) ) {
+	define( 'PRODUCT_AUTO_RELEASE_LITE_PATH', plugin_dir_path( __FILE__ ) );
 }
 
 // Define plugin Url.
-if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL' ) ) {
+	define( 'PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
 // Define plugin menu Slug.
-if ( ! defined( 'WOO_PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG' ) ) {
-	define( 'WOO_PRODUCT_AUTO_RELEASE_MENU_LITE_SLUG', 'product-auto-release' );
+if ( ! defined( 'PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG' ) ) {
+	define( 'PRODUCT_AUTO_RELEASE_LITE_MENU_SLUG', 'product-auto-release' );
 }
 
 /**
@@ -106,7 +106,7 @@ function activate_wc_product_auto_release_lite() {
 
 $active_plugins = (array) get_option( 'active_plugins', array() );
 
-if ( empty( $active_plugins ) || ! in_array( 'product-auto-release/product-auto-release.php', $active_plugins, true ) ) {
+if ( empty( $active_plugins ) || ! in_array( 'product-auto-release-pro/product-auto-release-pro.php', $active_plugins, true ) ) {
 
 	require_once 'includes/class-product-auto-release-lite.php';
 

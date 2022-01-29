@@ -58,14 +58,14 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 		 */
 		public function includes() {
 
-			require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/product-auto-release-lite-functions.php';
+			require PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/product-auto-release-lite-functions.php';
 
 			if ( ! is_admin() ) {
 				return;
 			}
-            require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-voted-list-table.php';
-			require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-product-auto-release-lite-admin.php';
-			require WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-product-auto-release-lite-settings-fields.php';
+            require PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-voted-list-table.php';
+			require PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-product-auto-release-lite-admin.php';
+			require PRODUCT_AUTO_RELEASE_LITE_PATH . 'admin/class-product-auto-release-lite-settings-fields.php';
 		}
 
 		/**
@@ -107,9 +107,9 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 				'auto_release_date' => '',
 			);
 
-			wp_enqueue_style( 'product-auto-release-lite-frontend', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/frontend-style.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_style( 'font-awesome-style', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
-			wp_enqueue_script( 'product-auto-release-lite', WOO_PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/product-auto-release-lite.js', array( 'jquery' ), WOO_PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
+			wp_enqueue_style( 'product-auto-release-lite-frontend', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/frontend-style.css', array(), PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_style( 'font-awesome-style', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/css/all.min.css', array(), PRODUCT_AUTO_RELEASE_LITE_VERSION, 'all' );
+			wp_enqueue_script( 'product-auto-release-lite', PRODUCT_AUTO_RELEASE_LITE_PLUGIN_URL . 'assets/js/product-auto-release-lite.js', array( 'jquery' ), PRODUCT_AUTO_RELEASE_LITE_VERSION, true );
 			wp_localize_script( 'product-auto-release-lite', 'product_auto_release_object', $product_auto_release_object );
 		}
 
@@ -197,7 +197,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 		 * @since 1.0.0
 		 */
 		public function woocommerce_email_classes_cb( $email_classes ) {
-			$email_classes['WC_Email_Admin_Product_Request_Live'] = include WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/emails/class-wc-product-available-admin-email.php';
+			$email_classes['WC_Email_Admin_Product_Request_Live'] = include PRODUCT_AUTO_RELEASE_LITE_PATH . 'includes/emails/class-wc-product-available-admin-email.php';
 
 			return $email_classes;
 		}

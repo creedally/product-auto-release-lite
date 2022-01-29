@@ -52,7 +52,7 @@ if ( ! class_exists( 'WC_Email_User_Requested_Product_Available_Admin' ) ) {
 			$this->heading = __( '{product_name} is live now!', 'product-auto-release-lite' );
 			$this->subject = __( '[{site_title}]: {product_name} is live now!', 'product-auto-release-lite' );
 
-			$this->template_base  = WOO_PRODUCT_AUTO_RELEASE_LITE_PATH . 'templates/';
+			$this->template_base  = PRODUCT_AUTO_RELEASE_LITE_PATH . 'templates/';
 			$this->template_html  = 'emails/requested-product-available-admin-email.php';
 			$this->template_plain = 'emails/plain/requested-product-available-admin-email.php';
 
