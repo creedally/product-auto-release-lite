@@ -388,7 +388,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 									$notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
 									$notify_product_lead_count = ! empty( $notify_product_lead_count ) ? $notify_product_lead_count : 0;
 									?>
-									<span class="total-voting-numbers"><?php echo sprintf( _n( '<strong>%s</strong> Vote', '<strong>%s</strong> Votes', $notify_product_lead_count, 'text-domain' ), number_format_i18n( $notify_product_lead_count ) ); ?> </span>
+									<span class="total-voting-numbers"><?php echo sprintf( _n( '<strong>%s</strong> Vote', '<strong>%s</strong> Votes', $notify_product_lead_count, 'product-auto-release-lite' ), number_format_i18n( $notify_product_lead_count ) ); ?> </span>
 								<?php } ?>
 							</div>
 						</div>
