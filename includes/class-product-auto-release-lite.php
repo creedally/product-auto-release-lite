@@ -291,7 +291,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			if ( ! empty( $_POST['_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'woo_auto_release' ) ) {
 				$status     = true;
 				$type       = 'success';
-				$product_id = ! empty( $_POST['product_id'] ) ? sanitize_text_field( $_POST['product_id'] ) : 0;
+				$product_id = ! empty( $_POST['product_id'] ) ? (int)sanitize_text_field( $_POST['product_id'] ) : 0;
 
 				if ( ! empty( $product_id ) && 0 <= $product_id ) {
 
@@ -382,7 +382,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 						?>
 						<div class="voting-options-main-wrapper" id="voting_options_main_wrapper" >
 							<div class='voting-option-wrapper' id="voting_option_wrapper" >
-								<a href="javascript:void(0);" class="notify-product-button button" data-product-id="<?php echo esc_attr( $product_id ); ?>" data-action="upvote" id="notify_product_voting_button"><?php echo apply_filters( 'upvote_button_label_html', "<i class='far fa-thumbs-up'></i>" ); ?></a>
+								<a href="javascript:void(0);" class="notify-product-button button" data-product-id="<?php echo esc_attr( $product_id ); ?>" data-action="upvote" id="notify_product_voting_button"><?php echo apply_filters( 'product_auto_release_upvote_button_label_html', "<i class='far fa-thumbs-up'></i>" ); ?></a>
 								<?php
 								if ( ! empty( $enable_show_total_votes ) && 'yes' === esc_attr( $enable_show_total_votes ) ) {
 									$notify_product_lead_count = get_post_meta( $product_id, 'notify_product_lead_count', true );
