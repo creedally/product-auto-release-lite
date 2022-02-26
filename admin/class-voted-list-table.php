@@ -192,11 +192,11 @@ if( ! class_exists('Voted_List_Table') ) {
             $order = 'desc';
 
             if (!empty($_GET['orderby'])) {
-                $order_by = sanitize_text_field( $_GET['orderby'] );
+                $order_by = esc_attr( $_GET['orderby'] );
             }
 
             if (!empty($_GET['order'])) {
-                $order = sanitize_text_field( $_GET['order'] );
+                $order = esc_attr( $_GET['order'] );
             }
 
             $result = strcmp($a[$order_by], $b[$order_by]);

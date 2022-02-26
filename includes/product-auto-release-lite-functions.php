@@ -37,7 +37,7 @@ if ( ! function_exists( 'check_notify_product' ) ) {
 			$is_notify = true;
 		}
 
-		return apply_filters( 'wp_auto_release_notify_product', $is_notify, $product_id );
+		return apply_filters( 'product_auto_release_notify_product', $is_notify, $product_id );
 	}
 }
 
@@ -72,7 +72,7 @@ if ( ! function_exists( 'get_wpar_message' ) ) {
 			'notification_vote_exists'    => __( 'You have already voted for this product.', 'product-auto-release-lite' ),
 		);
 
-		$global_messages = apply_filters( 'wp_auto_release_global_messages', $messages );
+		$global_messages = apply_filters( 'product_auto_release_global_messages', $messages );
 
 		return ! empty( $global_messages[ $key ] ) ? $global_messages[ $key ] : '';
 	}

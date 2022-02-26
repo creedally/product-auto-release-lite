@@ -59,7 +59,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 * @since    1.0.0
 		 */
 		public static function add_message( $text ) {
-			self::$messages[] = $text;
+			self::$messages[] = esc_attr($text);
 		}
 
 		/**
@@ -68,7 +68,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 * @since    1.0.0
 		 */
 		public static function add_error( $text ) {
-			self::$errors[] = $text;
+			self::$errors[] = esc_attr($text);
 		}
 
 		/**
@@ -97,7 +97,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 */
 		public function current_page() {
 
-			return ! empty( $_REQUEST['page'] ) ? sanitize_text_field( $_REQUEST['page'] ) : '';
+			return ! empty( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 		}
 
 		/**
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 
 			$current_menu = '';
 			if ( ! empty( $current_section ) && $current_section === $this->menu_slug ) {
-				$current_menu = ! empty( $_REQUEST['tab'] ) ? sanitize_text_field( $_REQUEST['tab'] ) : '';
+				$current_menu = ! empty( $_REQUEST['tab'] ) ? esc_attr( $_REQUEST['tab'] ) : '';
 			}
 
 			return $current_menu;
@@ -126,7 +126,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		public function menu_items() {
 
 			return apply_filters(
-				'wp_auto_release_menu_items',
+				'product_auto_release_menu_items',
 				array(
 					''              => __( 'Auto Release', 'product-auto-release-lite' ),
                     'voted_lists'   => __( 'Voted lists', 'product-auto-release-lite' ),
@@ -180,7 +180,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 			$current_section = $this->current_section();
 			$heading_title   = ! empty( $menu_items[ $current_section ] ) ? esc_attr( $menu_items[ $current_section ] ) . ' ' . __( 'settings', 'product-auto-release-lite' ) : '';
 			?>
-			<h1 class="wp-heading-inline"><?php echo esc_attr( apply_filters( 'wp_auto_release_heading_title', $heading_title ) ); ?></h1>
+			<h1 class="wp-heading-inline"><?php echo esc_attr( apply_filters( 'product_auto_release_heading_title', $heading_title ) ); ?></h1>
 			<?php
 		}
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 						$this->notification();
 						$ignore_list = array( 'subscribers_list', 'voted_lists' );
 
-						if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) {?>
+						if ( empty( $_GET['tab'] ) || ! in_array( esc_attr($_GET['tab']), $ignore_list, true ) ) {?>
 							<form method="post" id="wpar_form_main" action="" enctype="multipart/form-data">
 						<?php } ?>
 							<div class="wpar-content-wrap">
@@ -247,7 +247,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 								do_action( 'wpar_lite_section_after_content', $current_section );
 								?>
 							</div>
-							<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
+							<?php if ( empty( $_GET['tab'] ) || ! in_array( esc_attr($_GET['tab']), $ignore_list, true ) ) { ?>
 								<p class="submit <?php echo ! empty( $section ) ? esc_attr( $section ) : ''; ?> ">
 									<button name="save" class="button-primary" type="submit" value="submit"><?php esc_attr_e( 'Save changes', 'product-auto-release-lite' ); ?></button>
 									<input type="hidden" name="action" value="wpar_form_action">
@@ -256,7 +256,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 									<input type="hidden" name="current_section" value="<?php echo esc_attr( $current_section ); ?>">
 								</p>
 							<?php } ?>
-						<?php if ( empty( $_GET['tab'] ) || ! in_array( $_GET['tab'], $ignore_list, true ) ) { ?>
+						<?php if ( empty( $_GET['tab'] ) || ! in_array( esc_attr($_GET['tab']), $ignore_list, true ) ) { ?>
 						</form>
 						<?php } ?>
 					</div>
