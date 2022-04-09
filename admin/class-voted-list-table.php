@@ -190,14 +190,9 @@ if( ! class_exists('Voted_List_Table') ) {
 
             $order_by = 'product_title';
             $order = 'desc';
+            $order_by = !empty( $_GET['orderby'] ) ? sanitize_text_field( $_GET['orderby'] ) : $order_by;
 
-            if (!empty($_GET['orderby'])) {
-                $order_by = esc_attr( $_GET['orderby'] );
-            }
-
-            if (!empty($_GET['order'])) {
-                $order = esc_attr( $_GET['order'] );
-            }
+            $order = !empty($_GET['order']) ? sanitize_text_field( $_GET['order'] ) : $order ;
 
             $result = strcmp($a[$order_by], $b[$order_by]);
 
