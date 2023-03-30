@@ -79,7 +79,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin_Fields' ) ) {
 
             do_action( 'wpar_before_voted_lists_settings_content' );
 
-            $selected_id = ! empty( $_GET['product_id'] ) ? esc_attr( $_GET['product_id'] ) : '';
+            $selected_id = ! empty( $_GET['product_id'] ) ? sanitize_text_field( $_GET['product_id'] ) : '';
 
             ?>
             <div class="wc-product-voted-lists-filter">

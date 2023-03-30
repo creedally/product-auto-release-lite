@@ -348,6 +348,11 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			}
 		}
 
+        /**
+         * Add notify_button in single product page
+         *
+         * @since 1.0.0
+         */
 		public function add_notify_button() {
 			global $product;
 			if ( ! empty( $product->get_type() ) && 'simple' === $product->get_type() ) {
@@ -409,6 +414,15 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			return  ob_get_clean();
 		}
 
+        /**
+         * Replace email string with title
+         *
+         * @param $string
+         * @param $wc_email
+         * @return array|mixed|string|string[]
+         *
+         * @since 1.0.0
+         */
 		public function wc_email_format_string( $string, $wc_email ) {
 
 			if ( ! empty( $string ) && ! empty( $wc_email->product_id ) && $wc_email->product_id > 0 ) {
@@ -421,6 +435,14 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			return $string;
 		}
 
+        /**
+         * Upvote button html
+         *
+         * @param $html
+         * @return mixed|string|void
+         *
+         * @since 1.0.0
+         */
 		public function upvote_button_label_html_cb( $html = '' ) {
 			$wpar_get_settings = wpar_get_settings( 'general' );
 
