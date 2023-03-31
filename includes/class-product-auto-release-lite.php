@@ -80,7 +80,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 			add_action( 'template_redirect', array( $this, 'add_product_notify_button' ) );
 			add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'woocommerce_loop_add_to_cart_args_cb' ), 10, 2 );
 			add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'woocommerce_blocks_product_grid_item_html_cb' ), 9999, 3 );
-			add_filter( 'upvote_button_label_html', array( $this, 'upvote_button_label_html_cb' ) );
+			add_filter( 'product_auto_release_upvote_button_label_html', array( $this, 'upvote_button_label_html_cb' ) );
 			add_filter( 'woocommerce_email_classes', array( $this, 'woocommerce_email_classes_cb' ) );
 			add_action( 'wp_ajax_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
 			add_action( 'wp_ajax_nopriv_wpar_notify_request', array( $this, 'wpar_notify_request_cb' ) );
