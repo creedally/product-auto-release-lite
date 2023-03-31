@@ -138,12 +138,3 @@ function product_available(){
 		}
 	);
 }
-
-function wp_auto_release_validate_email(mail) {
-
-	if ( mail.match( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ) ) {
-		return true;
-	} else {
-		return false;
-	}
-}

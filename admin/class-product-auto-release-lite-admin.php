@@ -458,7 +458,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function save_notify_simple_product_options( int $product_id ) {
+		public function save_notify_simple_product_options( $product_id ) {
 			if ( ! empty( $_POST['woocommerce_meta_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['woocommerce_meta_nonce'] ), 'woocommerce_save_data' ) ) {
 
 				$check_notify_product    = check_notify_product( $product_id );

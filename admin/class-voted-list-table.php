@@ -14,16 +14,14 @@ if( ! class_exists('Voted_List_Table') ) {
      *
      * @since 1.0.0
      */
-    class Voted_List_Table extends WP_List_Table
-    {
+    class Voted_List_Table extends WP_List_Table {
 
         /**
          * Prepare table list items.
          *
          * @since 1.0.0
          */
-        public function prepare_items()
-        {
+        public function prepare_items() {
 
             $columns = $this->get_columns();
             $hidden = $this->get_hidden_columns();
@@ -59,8 +57,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        public function get_columns()
-        {
+        public function get_columns() {
 
             return array(
                 'product_title' => esc_html__('Product Title', 'product-auto-release-lite'),
@@ -76,8 +73,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        public function get_hidden_columns()
-        {
+        public function get_hidden_columns() {
 
             return array();
         }
@@ -89,8 +85,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        public function get_sortable_columns()
-        {
+        public function get_sortable_columns() {
 
             return array(
                 'product_title' => array('product_title', false),
@@ -105,8 +100,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        private function table_data()
-        {
+        private function table_data() {
 
             $data = array();
 
@@ -162,8 +156,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        public function column_default($item, $column_name)
-        {
+        public function column_default($item, $column_name) {
 
             switch ($column_name) {
                 case 'product_title':
@@ -185,8 +178,7 @@ if( ! class_exists('Voted_List_Table') ) {
          * @since 1.0.0
          *
          */
-        private function sort_data($a, $b)
-        {
+        private function sort_data($a, $b) {
 
             $order_by = 'product_title';
             $order = 'desc';
