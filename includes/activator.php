@@ -29,7 +29,7 @@ if ( ! class_exists( 'WC_PRODUCT_AUTO_RELEASE_LITE_Activator' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function activate() {
-
+            set_transient( '_parl_activation_redirect', true, 30 );
 		}
 	}
 }

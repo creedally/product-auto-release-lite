@@ -57,7 +57,7 @@ if ( ! function_exists( 'get_wpar_message' ) ) {
 	 * @since 1.0.0
 	 *
 	 */
-	function get_wpar_message( string $key = '' ) {
+	function get_wpar_message( $key = '' ) {
 
 		if ( empty( $key ) ) {
 			return '';
@@ -126,7 +126,7 @@ if ( ! function_exists( 'wpar_get_settings' ) ) {
 	 * @since 1.0.0
 	 *
 	 */
-	function wpar_get_settings( string $section = '', bool $all = false ) {
+	function wpar_get_settings( $section = '', $all = false ) {
 
 		$settings = get_option( 'wpar_settings', true );
 
