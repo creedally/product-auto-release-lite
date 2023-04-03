@@ -1,8 +1,8 @@
 <?php
 /**
- * Uninstall WooCommerce Product Auto Release.
+ * Uninstall Product Auto Release with Upvote & Countdown.
  *
- * When WooCommerce Product Auto Release delete plugin then plugin options remove.
+ * When Product Auto Release with Upvote & Countdown plugin delete then remove settings.
  *
  * @since 1.0.0
  */

@@ -440,8 +440,8 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 
 					woocommerce_wp_hidden_input(
 						array(
-							'id'    => 'woocommerce_meta_nonce',
-							'value' => esc_attr( wp_create_nonce( 'woocommerce_save_data' ) ),
+							'id'    => 'auto_release_meta_nonce',
+							'value' => esc_attr( wp_create_nonce( 'auto_release_save_data' ) ),
 						),
 					);
 
@@ -459,7 +459,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function save_notify_simple_product_options( $product_id ) {
-			if ( ! empty( $_POST['woocommerce_meta_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['woocommerce_meta_nonce'] ), 'woocommerce_save_data' ) ) {
+			if ( ! empty( $_POST['auto_release_meta_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['auto_release_meta_nonce'] ), 'auto_release_save_data' ) ) {
 
 				$check_notify_product    = check_notify_product( $product_id );
 				$notify_product          = ! empty( $_POST['notify_product'] ) ? 'yes' : '';

@@ -95,6 +95,22 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
          */
         public function activation_redirect() {
 
+            /**
+             * Check deactivate_plugins function exists or not.
+             * if function not exists then include plugin.php file.
+             *
+             * @since 1.0.0
+             */
+            if ( ! function_exists( 'deactivate_plugins' ) ) {
+                include_once ABSPATH . 'wp-admin/includes/plugin.php';
+            }
+
+            $active_plugins = (array) get_option( 'active_plugins', array() );
+
+            if ( empty( $active_plugins ) || ! in_array( 'woocommerce/woocommerce.php', $active_plugins, true ) ) {
+                return true;
+            }
+
             if ( !get_transient( '_parl_activation_redirect' ) ) {
                 return;
             }
@@ -333,7 +349,7 @@ if ( ! class_exists( 'Woo_Product_Auto_Release_Lite' ) ) {
 		}
 
 		/**
-		 * Reset WooCommerce Auto Release settings,
+		 * Reset Product Auto Release with Upvote & Countdown settings,
 		 *
 		 * @since 1.0.0
 		 *
