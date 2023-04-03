@@ -1,7 +1,7 @@
 <?php
 /**
 * Plugin Name:   Product Auto Release with Upvote & Countdown
-* Plugin URI:    https://store.creedally.com/product/woocommerce-product-auto-release/
+* Plugin URI:    https://store.creedally.com/
 * Description:   Auto release your products with a upvote rules of your convenience to attract more users, drive the more initial sale of your products.
 * Version:       1.0.0
 * Author:        CreedAlly
@@ -80,11 +80,12 @@ if ( is_admin() ) {
 			'admin_notices',
 			function() {
 				/* translators: %1$s: Product Title, %2$s: product link tag start, %3$s: product link tag end */
-				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'product-auto-release-lite' ), ' WC Product Inquiry Lite', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
+				echo '<div class="notice notice-error is-dismissible"><p><strong>' . sprintf( __( '%1$s requires %2$s WooCommerce %3$s plugin to be installed and active.', 'product-auto-release-lite' ), 'Product Auto Release with Upvote & Countdown', '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">', '</a>' ) . '</strong></p></div>';
 			}
 		);
 	}
 }
+
 register_activation_hook( __FILE__, 'activate_wc_product_auto_release_lite' );
 /**
  * The code that runs during plugin activation.
