@@ -2,7 +2,7 @@
 Contributors: creedally, dhavalparejia, priyank9033
 Tags: Product, Release, WooCommerce, Countdown, Vote
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: 1.0.0
 License: GPLv3
