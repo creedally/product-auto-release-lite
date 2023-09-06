@@ -87,11 +87,11 @@ In the search field type Product Auto Release with Upvote & Countdown and click 
 
 == Changelog ==
 
+= 1.0.1 - 09/06/2023 =
+
+* Compatibility with WordPress 6.3.1 version.
+
 = 1.0.1 - 05/09/2023 =
-
-Compatibility with WordPress 6.3.1 version.
-
-= 1.0.1 - 09/05/2023 =
 
 * First initial release.
 * Feature - Setting for enable/disable auto launch using timer.
