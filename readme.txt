@@ -2,9 +2,9 @@
 Contributors: creedally, dhavalparejia, priyank9033
 Tags: Product, Release, WooCommerce, Countdown, Vote
 Requires at least: 4.7
-Tested up to: 6.2
+Tested up to: 6.3.1
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -87,7 +87,11 @@ In the search field type Product Auto Release with Upvote & Countdown and click 
 
 == Changelog ==
 
-= 1.0.0 - 2023-05-09 =
+= 1.0.1 - 05/09/2023 =
+
+Compatibility with WordPress 6.3.1 version.
+
+= 1.0.1 - 09/05/2023 =
 
 * First initial release.
 * Feature - Setting for enable/disable auto launch using timer.

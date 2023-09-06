@@ -3,7 +3,7 @@
 * Plugin Name:   Product Auto Release with Upvote & Countdown
 * Plugin URI:    https://store.creedally.com/
 * Description:   Auto release your products with a upvote rules of your convenience to attract more users, drive the more initial sale of your products.
-* Version:       1.0.0
+* Version:       1.0.1
 * Author:        CreedAlly
 * Author URI:    https://creedally.com/
 * License:       GPL-2.0+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define plugin Version.
 if ( ! defined( 'PRODUCT_AUTO_RELEASE_LITE_VERSION' ) ) {
-	define( 'PRODUCT_AUTO_RELEASE_LITE_VERSION', '1.0.0' );
+	define( 'PRODUCT_AUTO_RELEASE_LITE_VERSION', '1.0.1' );
 }
 
 // Define plugin Path.
